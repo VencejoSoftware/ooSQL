@@ -27,7 +27,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;..\..\..\ooBatch\code;..\..\..\ooGeneric\code;..\..\..\ooSort\code;..\..\..\ooFilter\code;..\..\..\ooText\code;..\..\code\filter_condition;..\..\code\filter_join;..\..\code\filter_formatter;..\..\code\parameter;..\..\code\sort;..\..\code;..\code;..\code\filter_condition;..\code\filter_formatter;..\code\filter_join"/>
+            <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;$(delphiooLib)\ooBatch\code;$(delphiooLib)\ooGeneric\code;$(delphiooLib)\ooSort\code;$(delphiooLib)\ooFilter\code;$(delphiooLib)\ooText\code;..\..\code\filter_condition;..\..\code\filter_join;..\..\code\filter_formatter;..\..\code\parameter;..\..\code\sort;..\..\code;..\code;..\code\filter_condition;..\code\filter_formatter;..\code\filter_join"/>
             <UnitOutputDirectory Value="..\build\debug"/>
           </SearchPaths>
           <Parsing>
@@ -66,7 +66,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;..\..\..\ooBatch\code;..\..\..\ooGeneric\code;..\..\..\ooSort\code;..\..\..\ooFilter\code;..\..\..\ooText\code;..\..\code\filter_condition;..\..\code\filter_join;..\..\code\filter_formatter;..\..\code\parameter;..\..\code\sort;..\..\code;..\code;..\code\filter_condition;..\code\filter_formatter;..\code\filter_join"/>
+            <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;$(delphiooLib)\ooBatch\code;$(delphiooLib)\ooGeneric\code;$(delphiooLib)\ooSort\code;$(delphiooLib)\ooFilter\code;$(delphiooLib)\ooText\code;..\..\code\filter_condition;..\..\code\filter_join;..\..\code\filter_formatter;..\..\code\parameter;..\..\code\sort;..\..\code;..\code;..\code\filter_condition;..\code\filter_formatter;..\code\filter_join"/>
             <UnitOutputDirectory Value="..\build\release"/>
           </SearchPaths>
           <Parsing>
@@ -220,7 +220,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;..\..\..\ooBatch\code;..\..\..\ooGeneric\code;..\..\..\ooSort\code;..\..\..\ooFilter\code;..\..\..\ooText\code;..\..\code\filter_condition;..\..\code\filter_join;..\..\code\filter_formatter;..\..\code\parameter;..\..\code\sort;..\..\code;..\code;..\code\filter_condition;..\code\filter_formatter;..\code\filter_join"/>
+      <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;$(delphiooLib)\ooBatch\code;$(delphiooLib)\ooGeneric\code;$(delphiooLib)\ooSort\code;$(delphiooLib)\ooFilter\code;ooText\code;..\..\code\filter_condition;..\..\code\filter_join;..\..\code\filter_formatter;..\..\code\parameter;..\..\code\sort;..\..\code;..\code;..\code\filter_condition;..\code\filter_formatter;..\code\filter_join"/>
       <UnitOutputDirectory Value="..\build\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
