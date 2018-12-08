@@ -1,17 +1,27 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{BD666E27-E4DB-4C48-B3A9-6D93D1892187}</ProjectGuid>
-        <MainSource>test.dpr</MainSource>
+        <MainSource>demo.dpr</MainSource>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <ProjectVersion>18.4</ProjectVersion>
         <Base>True</Base>
         <TargetedPlatforms>1</TargetedPlatforms>
-        <AppType>Console</AppType>
-        <FrameworkType>None</FrameworkType>
+        <AppType>Application</AppType>
+        <FrameworkType>VCL</FrameworkType>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
@@ -24,26 +34,39 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <VerInfo_MinorVer>2</VerInfo_MinorVer>
-        <VerInfo_Build>4</VerInfo_Build>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Release>3</VerInfo_Release>
-        <Manifest_File>None</Manifest_File>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Winapi;DUnitX;VCL;System.Win;$(DCC_Namespace)</DCC_Namespace>
+        <SanitizedProjectName>demo</SanitizedProjectName>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>11274</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.2.3.4;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <SanitizedProjectName>test</SanitizedProjectName>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;$(DCC_Namespace)</DCC_Namespace>
         <DCC_UsePackage>vclx;vcl;vclimg;dbrtl;Rave77VCL;bdertl;rtl;dxCoreD14;cxLibraryD14;dxDockingD14;dxBarD14;dxBarDBNavD14;dxBarExtDBItemsD14;dxBarExtItemsD14;dxRibbonD14;cxPageControlD14;vcldb;cxEditorsD14;cxExtEditorsD14;cxGridD14;cxTreeListD14;dxLayoutControlD14;dxmdsD14;dxComnD14;dxsbD14;dxdbtrD14;dxtrmdD14;dxorgcD14;dxdborD14;cxBarEditItemD14;cxTreeListdxBarPopupMenuD14;vclactnband;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;TeeUI;TeeDB;Tee;vclib;ibxpress;adortl;IndyCore;IndySystem;IndyProtocols;inet;intrawebdb_100_140;Intraweb_100_140;VclSmp;vclie;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;soaprtl;vclribbon;DbxCommonDriver;DbxClientDriver;DBXInterBaseDriver;DBXMySQLDriver;dbexpress;dbxcds;GireRapi;TIE_http_https;rxctl;rxdb;QR5RunD2010;GirePGP;ZMstr191D2010;CtrlGire;GireHelp;vclPerfUtilsV4D14;$(DCC_UsePackage)</DCC_UsePackage>
-        <DCC_UnitSearchPath>$(delphi3rdParty)\dunit-agiledoxtestrunner\;$(delphi3rdParty)\dxDUnit\Source\;$(delphiooLib)\ooBatch\code\;$(delphiooLib)\ooGeneric\code\;$(delphiooLib)\ooText\code\;$(delphiooLib)\ooEntity\code\key\;$(delphiooLib)\ooEntity\code\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <DCC_DependencyCheckOutputName>test.exe</DCC_DependencyCheckOutputName>
+        <DCC_UnitSearchPath>$(delphiooLib)\ooGeneric\code\;$(delphiooLib)\ooText\code\;$(delphiooLib)\ooEntity\code\key\;$(delphiooLib)\ooEntity\code\;..\..\code\;..\..\code\condition\;..\..\code\join\;..\..\code\parameter\;..\..\code\sort\;..\code\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_DependencyCheckOutputName>demo.exe</DCC_DependencyCheckOutputName>
         <DCC_ImageBase>00400000</DCC_ImageBase>
         <DCC_Platform>x86</DCC_Platform>
-        <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
-        <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <Debugger_RunParams>-a:test -b=1234 /c:nones -j=jjjj onlytext</Debugger_RunParams>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <DCC_DependencyCheckOutputName>..\build\release\test.exe</DCC_DependencyCheckOutputName>
+        <DCC_DependencyCheckOutputName>..\build\release\demo.exe</DCC_DependencyCheckOutputName>
         <DCC_ExeOutput>..\build\release\</DCC_ExeOutput>
         <DCC_DcuOutput>..\build\release\dcu\</DCC_DcuOutput>
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -54,100 +77,26 @@
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_RangeChecking>true</DCC_RangeChecking>
         <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
-        <DCC_DependencyCheckOutputName>..\build\debug\test.exe</DCC_DependencyCheckOutputName>
+        <DCC_DependencyCheckOutputName>..\build\debug\demo.exe</DCC_DependencyCheckOutputName>
         <DCC_ExeOutput>..\build\debug\</DCC_ExeOutput>
         <DCC_DcuOutput>..\build\debug\dcu\</DCC_DcuOutput>
         <DCC_MapFile>3</DCC_MapFile>
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+    </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="..\..\code\condition\BetweenSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\EqualSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\GreaterOrEqualSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\GreaterSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\InSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\IsNotNullSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\IsNullSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\JoinedSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\LessOrEqualSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\LessSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\LikeSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\NotEqualSQLCondition.pas"/>
-        <DCCReference Include="..\..\code\condition\SQLCondition.pas"/>
-        <DCCReference Include="..\..\code\join\AndNotSQLJoin.pas"/>
-        <DCCReference Include="..\..\code\join\AndSQLJoin.pas"/>
-        <DCCReference Include="..\..\code\join\NoneSQLJoin.pas"/>
-        <DCCReference Include="..\..\code\join\OrNotSQLJoin.pas"/>
-        <DCCReference Include="..\..\code\join\OrSQLJoin.pas"/>
-        <DCCReference Include="..\..\code\join\SQLJoin.pas"/>
-        <DCCReference Include="..\..\code\join\WhereSQL.pas"/>
-        <DCCReference Include="..\..\code\parameter\BooleanSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\DateSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\DateTimeSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\DynamicSQLParameter.pas"/>
-        <DCCReference Include="..\..\code\parameter\DynamicSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\ExtendedFormatSetting.pas"/>
-        <DCCReference Include="..\..\code\parameter\ExtendedSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\IntegerSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\ListSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\NullSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\SQLParameter.pas"/>
-        <DCCReference Include="..\..\code\parameter\SQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\StringSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\UIntegerSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\sort\AscendingSQLSort.pas"/>
-        <DCCReference Include="..\..\code\sort\DescendingSQLSort.pas"/>
-        <DCCReference Include="..\..\code\sort\NoneSQLSort.pas"/>
-        <DCCReference Include="..\..\code\sort\SQLSort.pas"/>
-        <DCCReference Include="..\..\code\SQL.pas"/>
-        <DCCReference Include="..\..\code\SQLFilter.pas"/>
-        <DCCReference Include="..\..\code\SQLFiltered.pas"/>
-        <DCCReference Include="..\..\code\SQLInjectedFilter.pas"/>
-        <DCCReference Include="..\code\condition\BetweenSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\EqualSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\GreaterOrEqualSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\GreaterSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\InSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\IsNotNullSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\IsNullSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\JoinedSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\LessOrEqualSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\LessSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\LikeSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\condition\NotEqualSQLCondition_test.pas"/>
-        <DCCReference Include="..\code\join\AndNotSQLJoin_test.pas"/>
-        <DCCReference Include="..\code\join\AndSQLJoin_test.pas"/>
-        <DCCReference Include="..\code\join\NoneSQLJoin_test.pas"/>
-        <DCCReference Include="..\code\join\OrNotSQLJoin_test.pas"/>
-        <DCCReference Include="..\code\join\OrSQLJoin_test.pas"/>
-        <DCCReference Include="..\code\join\WhereSQL_test.pas"/>
-        <DCCReference Include="..\code\mock\SymbolListMock.pas"/>
-        <DCCReference Include="..\code\parameter\BooleanSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\DateSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\DateTimeSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\DynamicSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\ExtendedFormatSettingValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\ExtendedSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\IntegerSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\ListSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\NullSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\RawSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\SQLParameter_test.pas"/>
-        <DCCReference Include="..\code\parameter\StringSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\UIntegerSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\sort\AscendingSQLSort_test.pas"/>
-        <DCCReference Include="..\code\sort\DescendingSQLSort_test.pas"/>
-        <DCCReference Include="..\code\sort\NoneSQLSort_test.pas"/>
-        <DCCReference Include="..\code\SQL_test.pas"/>
-        <DCCReference Include="..\code\SQLFilter_test.pas"/>
-        <DCCReference Include="..\code\SQLFiltered_test.pas"/>
-        <DCCReference Include="..\code\SQLInjectedFilter_test.pas"/>
-        <DCCReference Include="..\..\code\condition\SingleSQLCondition.pas"/>
-        <DCCReference Include="..\code\parameter\DynamicSQLParameter_test.pas"/>
-        <DCCReference Include="..\code\condition\SQLConditionList_test.pas"/>
+        <DCCReference Include="..\code\form\MainForm.pas">
+            <Form>MainForm</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\test\code\mock\SymbolListMock.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -167,12 +116,13 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">test.dpr</Source>
+                    <Source Name="MainSource">demo.dpr</Source>
                 </Source>
                 <Parameters>
                     <Parameters Name="UseLauncher">False</Parameters>
                     <Parameters Name="LoadAllSymbols">True</Parameters>
                     <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+                    <Parameters Name="RunParams">-a:test -b=1234 /c:nones -j=jjjj onlytext</Parameters>
                 </Parameters>
                 <VersionInfo>
                     <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
@@ -202,8 +152,6 @@
                     <VersionInfoKeys Name="Comments"/>
                 </VersionInfoKeys>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclFMXtee9250.bpl">TeeChart Lite FMX Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcltee9250.bpl">TeeChart Standard VCL Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k250.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp250.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
@@ -213,31 +161,9 @@
                 <Platform value="Win64">False</Platform>
             </Platforms>
             <Deployment Version="3">
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\build\debug\test.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\build\debug\demo.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>test.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
-                    <Platform Name="iOSSimulator">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\build\debug\test.exe" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="$(BDS)\Redist\iossim32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="iOSSimulator">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
+                        <RemoteName>demo.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -593,8 +519,8 @@
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>

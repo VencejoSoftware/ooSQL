@@ -6,14 +6,20 @@ if not exist %delphiooLib%\ooBatch\ (
   call %delphiooLib%\ooBatch\code\get_dependencies.bat
 )
 
-if not exist %delphiooLib%\ooFilter\ (
-  @echo "Clonning ooFilter..."
-  git clone https://github.com/VencejoSoftware/ooFilter.git %delphiooLib%\ooFilter\
-  call %delphiooLib%\ooFilter\batch\get_dependencies.bat
+if not exist %delphiooLib%\ooGeneric\ (
+  @echo "Clonning ooGeneric..."
+  git clone https://github.com/VencejoSoftware/ooGeneric.git %delphiooLib%\ooGeneric\
+  call %delphiooLib%\ooGeneric\batch\get_dependencies.bat
 )
 
-if not exist %delphiooLib%\ooSort\ (
-  @echo "Clonning ooSort..."
-  git clone https://github.com/VencejoSoftware/ooSort.git %delphiooLib%\ooSort\
-  call %delphiooLib%\ooSort\batch\get_dependencies.bat
+if not exist %delphiooLib%\ooText\ (
+  @echo "Clonning ooText..."
+  git clone https://github.com/VencejoSoftware/ooText.git %delphiooLib%\ooText\
+  call %delphiooLib%\ooText\batch\get_dependencies.bat
+)
+
+if not exist %delphiooLib%\ooEntity\ (
+  @echo "Clonning ooEntity..."
+  git clone https://github.com/VencejoSoftware/ooEntity.git %delphiooLib%\ooEntity\
+  call %delphiooLib%\ooEntity\batch\get_dependencies.bat
 )
