@@ -27,7 +27,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;$(delphiooLib)\ooBatch\code;$(delphiooLib)\ooGeneric\code;$(delphiooLib)\ooSort\code;$(delphiooLib)\ooFilter\code;$(delphiooLib)\ooText\code;..\..\code\filter_condition;..\..\code\filter_join;..\..\code\filter_formatter;..\..\code\parameter;..\..\code\sort;..\..\code;..\code;..\code\filter_condition;..\code\filter_formatter;..\code\filter_join"/>
+            <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;$env(delphiooLib)\ooBatch\code;$env(delphiooLib)\ooGeneric\code;$env(delphiooLib)\ooText\code;$env(delphiooLib)\ooEntity\code;$env(delphiooLib)\ooEntity\code\key;..\..\code\condition;..\..\code\join;..\..\code\parameter;..\..\code\sort;..\..\code;..\code\condition;..\code\join;..\code\mock;..\code\parameter;..\code\sort;..\code"/>
             <UnitOutputDirectory Value="..\build\debug"/>
           </SearchPaths>
           <Parsing>
@@ -66,7 +66,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;$(delphiooLib)\ooBatch\code;$(delphiooLib)\ooGeneric\code;$(delphiooLib)\ooSort\code;$(delphiooLib)\ooFilter\code;$(delphiooLib)\ooText\code;..\..\code\filter_condition;..\..\code\filter_join;..\..\code\filter_formatter;..\..\code\parameter;..\..\code\sort;..\..\code;..\code;..\code\filter_condition;..\code\filter_formatter;..\code\filter_join"/>
+            <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;$env(delphiooLib)\ooBatch\code;$env(delphiooLib)\ooGeneric\code;$env(delphiooLib)\ooText\code;$env(delphiooLib)\ooEntity\code;$env(delphiooLib)\ooEntity\code\key;..\..\code\condition;..\..\code\join;..\..\code\parameter;..\..\code\sort;..\..\code;..\code\condition;..\code\join;..\code\mock;..\code\parameter;..\code\sort;..\code"/>
             <UnitOutputDirectory Value="..\build\release"/>
           </SearchPaths>
           <Parsing>
@@ -116,103 +116,347 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="24">
+    <Units Count="85">
       <Unit0>
         <Filename Value="test.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="..\code\ooSQL.Filter.Inject_test.pas"/>
+        <Filename Value="..\..\code\condition\BetweenSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit1>
       <Unit2>
-        <Filename Value="..\code\ooSQL_test.pas"/>
+        <Filename Value="..\..\code\condition\EqualSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="..\code\ooSQLFilter_test.pas"/>
+        <Filename Value="..\..\code\condition\GreaterOrEqualSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="..\code\ooSQLParameter_test.pas"/>
+        <Filename Value="..\..\code\condition\GreaterSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="..\code\ooSQLSort_test.pas"/>
+        <Filename Value="..\..\code\condition\InSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.Between_test.pas"/>
+        <Filename Value="..\..\code\condition\IsNotNullSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.Equal_test.pas"/>
+        <Filename Value="..\..\code\condition\IsNullSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.Greater_test.pas"/>
+        <Filename Value="..\..\code\condition\JoinedSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit8>
       <Unit9>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.GreaterOrEqual_test.pas"/>
+        <Filename Value="..\..\code\condition\LessOrEqualSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit9>
       <Unit10>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.InList_test.pas"/>
+        <Filename Value="..\..\code\condition\LessSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.IsNotNull_test.pas"/>
+        <Filename Value="..\..\code\condition\LikeSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit11>
       <Unit12>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.IsNull_test.pas"/>
+        <Filename Value="..\..\code\condition\NotEqualSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.Less_test.pas"/>
+        <Filename Value="..\..\code\condition\SingleSQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.LessOrEqual_test.pas"/>
+        <Filename Value="..\..\code\condition\SQLCondition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.Like_test.pas"/>
+        <Filename Value="..\..\code\join\AndNotSQLJoin.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="..\code\filter_condition\ooSQL.Filter.NotEqual_test.pas"/>
+        <Filename Value="..\..\code\join\AndSQLJoin.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit16>
       <Unit17>
-        <Filename Value="..\code\filter_formatter\ooSQL.Filter.SimpleFormatter_test.pas"/>
+        <Filename Value="..\..\code\join\NoneSQLJoin.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit17>
       <Unit18>
-        <Filename Value="..\code\filter_join\ooSQL.Filter.JoinAnd_test.pas"/>
+        <Filename Value="..\..\code\join\OrNotSQLJoin.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit18>
       <Unit19>
-        <Filename Value="..\code\filter_join\ooSQL.Filter.JoinAndNot_test.pas"/>
+        <Filename Value="..\..\code\join\OrSQLJoin.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit19>
       <Unit20>
-        <Filename Value="..\code\filter_join\ooSQL.Filter.JoinNone_test.pas"/>
+        <Filename Value="..\..\code\join\SQLJoin.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit20>
       <Unit21>
-        <Filename Value="..\code\filter_join\ooSQL.Filter.JoinOr_test.pas"/>
+        <Filename Value="..\..\code\join\WhereSQL.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit21>
       <Unit22>
-        <Filename Value="..\code\filter_join\ooSQL.Filter.JoinOrNot_test.pas"/>
+        <Filename Value="..\..\code\parameter\BooleanSQLParameterValue.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit22>
       <Unit23>
-        <Filename Value="..\code\filter_join\ooSQL.Filter.JoinWhere_test.pas"/>
+        <Filename Value="..\..\code\parameter\DateSQLParameterValue.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit23>
+      <Unit24>
+        <Filename Value="..\..\code\parameter\DateTimeSQLParameterValue.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="..\..\code\parameter\DynamicSQLParameter.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="..\..\code\parameter\DynamicSQLParameterValue.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="..\..\code\parameter\ExtendedFormatSetting.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="..\..\code\parameter\ExtendedSQLParameterValue.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="..\..\code\parameter\IntegerSQLParameterValue.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="..\..\code\parameter\ListSQLParameterValue.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="..\..\code\parameter\NullSQLParameterValue.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="..\..\code\parameter\SQLParameter.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="..\..\code\parameter\SQLParameterValue.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="..\..\code\parameter\StringSQLParameterValue.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="..\..\code\parameter\UIntegerSQLParameterValue.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="..\..\code\sort\AscendingSQLSort.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="..\..\code\sort\DescendingSQLSort.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="..\..\code\sort\NoneSQLSort.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="..\..\code\sort\SQLSort.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="..\..\code\SQL.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="..\..\code\SQLFilter.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="..\..\code\SQLFiltered.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="..\..\code\SQLInjectedFilter.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="..\code\condition\BetweenSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="..\code\condition\EqualSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="..\code\condition\GreaterOrEqualSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="..\code\condition\GreaterSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="..\code\condition\InSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="..\code\condition\IsNotNullSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="..\code\condition\IsNullSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="..\code\condition\JoinedSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="..\code\condition\LessOrEqualSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="..\code\condition\LessSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="..\code\condition\LikeSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="..\code\condition\NotEqualSQLCondition_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="..\code\condition\SQLConditionList_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="..\code\join\AndNotSQLJoin_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="..\code\join\AndSQLJoin_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="..\code\join\NoneSQLJoin_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="..\code\join\OrNotSQLJoin_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="..\code\join\OrSQLJoin_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="..\code\join\WhereSQL_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="..\code\mock\SymbolListMock.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="..\code\parameter\BooleanSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="..\code\parameter\DateSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="..\code\parameter\DateTimeSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit66>
+      <Unit67>
+        <Filename Value="..\code\parameter\DynamicSQLParameter_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit67>
+      <Unit68>
+        <Filename Value="..\code\parameter\DynamicSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit68>
+      <Unit69>
+        <Filename Value="..\code\parameter\ExtendedFormatSettingValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit69>
+      <Unit70>
+        <Filename Value="..\code\parameter\ExtendedSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit70>
+      <Unit71>
+        <Filename Value="..\code\parameter\IntegerSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit71>
+      <Unit72>
+        <Filename Value="..\code\parameter\ListSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit72>
+      <Unit73>
+        <Filename Value="..\code\parameter\NullSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="..\code\parameter\RawSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit74>
+      <Unit75>
+        <Filename Value="..\code\parameter\SQLParameter_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit75>
+      <Unit76>
+        <Filename Value="..\code\parameter\StringSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="..\code\parameter\UIntegerSQLParameterValue_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="..\code\sort\AscendingSQLSort_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="..\code\sort\DescendingSQLSort_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit79>
+      <Unit80>
+        <Filename Value="..\code\sort\NoneSQLSort_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit80>
+      <Unit81>
+        <Filename Value="..\code\SQL_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit81>
+      <Unit82>
+        <Filename Value="..\code\SQLFilter_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit82>
+      <Unit83>
+        <Filename Value="..\code\SQLFiltered_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="..\code\SQLInjectedFilter_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit84>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -220,7 +464,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;$(delphiooLib)\ooBatch\code;$(delphiooLib)\ooGeneric\code;$(delphiooLib)\ooSort\code;$(delphiooLib)\ooFilter\code;ooText\code;..\..\code\filter_condition;..\..\code\filter_join;..\..\code\filter_formatter;..\..\code\parameter;..\..\code\sort;..\..\code;..\code;..\code\filter_condition;..\code\filter_formatter;..\code\filter_join"/>
+      <OtherUnitFiles Value="$env(delphi3rdParty)\dunit-agiledoxtestrunner;$env(delphi3rdParty)\generics.collections\src;$env(delphiooLib)\ooBatch\code;$env(delphiooLib)\ooGeneric\code;$env(delphiooLib)\ooText\code;$env(delphiooLib)\ooEntity\code;$env(delphiooLib)\ooEntity\code\key;..\..\code\condition;..\..\code\join;..\..\code\parameter;..\..\code\sort;..\..\code;..\code\condition;..\code\join;..\code\mock;..\code\parameter;..\code\sort;..\code"/>
       <UnitOutputDirectory Value="..\build\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
