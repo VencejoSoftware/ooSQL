@@ -42,6 +42,11 @@ If not exists folder "code-documentation" then run the batch "build_doc". The ma
 ### Demo
 Before all, run the batch "build_demo" to build proyect. Then go to the folder "demo\build\release\" and run the executable.
 
+## Dependencies
+* [ooGeneric](https://github.com/VencejoSoftware/ooGeneric.git) - Generic object oriented list
+* [ooText](https://github.com/VencejoSoftware/ooText.git) - Object pascal string library
+* [ooEntity](https://github.com/VencejoSoftware/ooEntity.git) - Interfaces for entity work
+
 ## Built With
 * [Delphi&reg;](https://www.embarcadero.com/products/rad-studio) - Embarcadero&trade; commercial IDE
 * [Lazarus](https://www.lazarus-ide.org/) - The Lazarus project
