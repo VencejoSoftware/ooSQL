@@ -76,7 +76,7 @@ var
   SQL: ISQLFiltered;
 begin
   SQL := TSQLFiltered.New(SQL_SYNTAX, nil);
-  CheckEquals(SQL_SYNTAX, SQL.Parse([]));
+  CheckEquals(SQL_SYNTAX, SQL.Parse([]).Syntax);
 end;
 
 procedure TSQLFilteredTest.ParseSelectWithFilterWithOutConditionReturnRawSQL;
@@ -88,7 +88,7 @@ var
 begin
   Filter := TSQLFilter.New(TAndSQLJoin.New, DefaultSyntaxFormat);
   SQL := TSQLFiltered.New(SQL_SYNTAX, Filter);
-  CheckEquals(SQL_SYNTAX, SQL.Parse([]));
+  CheckEquals(SQL_SYNTAX, SQL.Parse([]).Syntax);
 end;
 
 procedure TSQLFilteredTest.ParseSelectFilterWithoutWhere;
@@ -107,7 +107,7 @@ begin
   Filter.ConditionList.Add(TJoinedSQLCondition.New(TNoneSQLJoin.New, TEqualSQLCondition.New(TTextKey.New('Field1'),
     Param1, DefaultSyntaxFormat), DefaultSyntaxFormat));
   SQL := TSQLFiltered.New(SQL_SYNTAX, Filter);
-  CheckEquals(SQL_SYNTAX_RESULT, SQL.Parse([]));
+  CheckEquals(SQL_SYNTAX_RESULT, SQL.Parse([]).Syntax);
 end;
 
 procedure TSQLFilteredTest.ParseSelectAddingFilterAfterWhere;
@@ -132,7 +132,7 @@ begin
   Param2.ChangeValue(TIntegerSQLParameterValue.New(999));
   Param3 := TDynamicSQLParameter.New('FIELD_BOOL1');
   Param3.ChangeValue(TBooleanSQLParameterValue.New(False));
-  CheckEquals(SQL_SYNTAX_RESULT, SQL.Parse([Param1, Param2, Param3]));
+  CheckEquals(SQL_SYNTAX_RESULT, SQL.Parse([Param1, Param2, Param3]).Syntax);
 end;
 
 procedure TSQLFilteredTest.ParseSelectAddingFilterAfterWhereAndOrderBy;
@@ -158,7 +158,7 @@ begin
   Param2.ChangeValue(TIntegerSQLParameterValue.New(999));
   Param3 := TDynamicSQLParameter.New('FIELD_BOOL1');
   Param3.ChangeValue(TBooleanSQLParameterValue.New(False));
-  CheckEquals(SQL_SYNTAX_RESULT, SQL.Parse([Param1, Param2, Param3]));
+  CheckEquals(SQL_SYNTAX_RESULT, SQL.Parse([Param1, Param2, Param3]).Syntax);
 end;
 
 procedure TSQLFilteredTest.ParseSelectAddingUsingParameterList;
@@ -183,7 +183,7 @@ begin
   ParamList.Last.ChangeValue(TStringSQLParameterValue.New('ValueString'));
   ParamList.Add(TDynamicSQLParameter.New('FIELD_INT1'));
   ParamList.Last.ChangeValue(TIntegerSQLParameterValue.New(999));
-  CheckEquals(SQL_SYNTAX_RESULT, SQL.Parse(ParamList));
+  CheckEquals(SQL_SYNTAX_RESULT, SQL.Parse(ParamList).Syntax);
 end;
 
 initialization

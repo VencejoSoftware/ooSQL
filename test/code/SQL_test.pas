@@ -57,7 +57,7 @@ begin
   ParamList.Last.ChangeValue(TIntegerSQLParameterValue.New(999));
   ParamList.Add(TDynamicSQLParameter.New('FIELD_BOOL1'));
   ParamList.Last.ChangeValue(TBooleanSQLParameterValue.New(False));
-  CheckEquals(SQL_TEST_RESULT, SQL.Parse(ParamList));
+  CheckEquals(SQL_TEST_RESULT, SQL.Parse(ParamList).Syntax);
 end;
 
 procedure TSQLTest.ParseUpdate;
@@ -73,7 +73,7 @@ begin
   Param1.ChangeValue(TRawSQLParameterValue.New('FIELD1'));
   Param2 := TDynamicSQLParameter.New('FIELD_STR1');
   Param2.ChangeValue(TStringSQLParameterValue.New('ValueString'));
-  CheckEquals(SQL_TEST_RESULT, SQL.Parse([Param1, Param2]));
+  CheckEquals(SQL_TEST_RESULT, SQL.Parse([Param1, Param2]).Syntax);
 end;
 
 procedure TSQLTest.ParseSelectFilterWithWhere;
@@ -92,7 +92,7 @@ begin
   Param3 := TDynamicSQLParameter.New('FIELD_BOOL1');
   Param3.ChangeValue(TBooleanSQLParameterValue.New(False));
   SQL := TSQL.New(SQL_SYNTAX);
-  CheckEquals(SQL_SYNTAX_RESULT, SQL.Parse([Param1, Param2, Param3]));
+  CheckEquals(SQL_SYNTAX_RESULT, SQL.Parse([Param1, Param2, Param3]).Syntax);
 end;
 
 initialization

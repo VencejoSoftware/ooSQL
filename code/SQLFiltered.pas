@@ -78,8 +78,8 @@ type
     function SQLWithFilter: String;
   public
     function Syntax: String;
-    function Parse(const Parameters: array of ISQLParameter): String; overload;
-    function Parse(const Parameters: ISQLParameterList): String; overload;
+    function Parse(const Parameters: array of ISQLParameter): IStatement; overload;
+    function Parse(const Parameters: ISQLParameterList): IStatement; overload;
     function Filter: ISQLFilter;
     constructor Create(const SQL: String; const Filter: ISQLFilter);
     class function New(const SQL: String; const Filter: ISQLFilter): ISQLFiltered;
@@ -105,7 +105,7 @@ begin
     Result := _SQL;
 end;
 
-function TSQLFiltered.Parse(const Parameters: array of ISQLParameter): String;
+function TSQLFiltered.Parse(const Parameters: array of ISQLParameter): IStatement;
 var
   SQL: ISQL;
 begin
@@ -113,7 +113,7 @@ begin
   Result := SQL.Parse(Parameters);
 end;
 
-function TSQLFiltered.Parse(const Parameters: ISQLParameterList): String;
+function TSQLFiltered.Parse(const Parameters: ISQLParameterList): IStatement;
 var
   SQL: ISQL;
 begin
