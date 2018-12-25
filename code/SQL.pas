@@ -15,7 +15,9 @@ unit SQL;
 interface
 
 uses
+  Classes, SysUtils,
   Text,
+  IterableList,
   ReplaceText, InsensitiveWordMatch,
   Statement,
   SQLParameter;
@@ -28,19 +30,19 @@ type
   @member(
     Parse Parse syntax replacing template with parameter array
     @param(Parameters Array of @link(ISQLParameter parameters))
-    @return(String parsed)
+    @return(Statement parsed)
   )
   @member(
     Parse Parse syntax replacing template with parameter list
     @param(Parameters @link(ISQLParameterList List of parameters))
-    @return(String parsed)
+    @return(Statement parsed)
   )
 }
 {$ENDREGION}
   ISQL = interface(IStatement)
     ['{5D70AAB2-79BD-4B39-BFE5-42AE9749970F}']
-    function Parse(const Parameters: array of ISQLParameter): String; overload;
-    function Parse(const Parameters: ISQLParameterList): String; overload;
+    function Parse(const Parameters: array of ISQLParameter): IStatement; overload;
+    function Parse(const Parameters: ISQLParameterList): IStatement; overload;
   end;
 
 {$REGION 'documentation'}
@@ -73,10 +75,29 @@ type
     function ReplaceParameter(const SQL: String; const Parameter: ISQLParameter): String;
   public
     function Syntax: String;
-    function Parse(const Parameters: array of ISQLParameter): String; overload;
-    function Parse(const Parameters: ISQLParameterList): String; overload;
+    function Parse(const Parameters: array of ISQLParameter): IStatement; overload;
+    function Parse(const Parameters: ISQLParameterList): IStatement; overload;
     constructor Create(const SQL: String);
     class function New(const SQL: String): ISQL;
+  end;
+
+{$REGION 'documentation'}
+{
+  @abstract(Implementation of @link(IStatementList))
+  @member(
+    New Create a new @classname as interface
+  )
+  @member(
+    NewFromSyntax Create and add all items from syntax
+    @param(Syntax Syntax text to parse)
+  )
+}
+{$ENDREGION}
+
+  TSQLList = class sealed(TIterableList<IStatement>, IStatementList)
+  public
+    class function New: IStatementList;
+    class function NewFromSyntax(const Syntax: String; const LineDelimiter: Char = ';'): IStatementList;
   end;
 
 implementation
@@ -95,22 +116,26 @@ begin
     TText.New(Parameter.Value.Syntax), 1).Value;
 end;
 
-function TSQL.Parse(const Parameters: array of ISQLParameter): String;
+function TSQL.Parse(const Parameters: array of ISQLParameter): IStatement;
 var
   Parameter: ISQLParameter;
+  Syntax: String;
 begin
-  Result := _SQL;
+  Syntax := _SQL;
   for Parameter in Parameters do
-    Result := ReplaceParameter(Result, Parameter);
+    Syntax := ReplaceParameter(Syntax, Parameter);
+  Result := TSQL.New(Syntax);
 end;
 
-function TSQL.Parse(const Parameters: ISQLParameterList): String;
+function TSQL.Parse(const Parameters: ISQLParameterList): IStatement;
 var
   Parameter: ISQLParameter;
+  Syntax: String;
 begin
-  Result := _SQL;
+  Syntax := _SQL;
   for Parameter in Parameters do
-    Result := ReplaceParameter(Result, Parameter);
+    Syntax := ReplaceParameter(Syntax, Parameter);
+  Result := TSQL.New(Syntax);
 end;
 
 constructor TSQL.Create(const SQL: String);
@@ -121,6 +146,32 @@ end;
 class function TSQL.New(const SQL: String): ISQL;
 begin
   Result := TSQL.Create(SQL);
+end;
+
+{ TSQLList }
+
+class function TSQLList.New: IStatementList;
+begin
+  Result := TSQLList.Create;
+end;
+
+class function TSQLList.NewFromSyntax(const Syntax: String; const LineDelimiter: Char): IStatementList;
+var
+  StringList: TStringList;
+  i: NativeInt;
+begin
+  Result := TSQLList.New;
+  StringList := TStringList.Create;
+  try
+    StringList.Delimiter := LineDelimiter;
+    StringList.StrictDelimiter := True;
+    StringList.DelimitedText := Syntax;
+    for i := 0 to Pred(StringList.Count) do
+      if Length(Trim(StringList.Strings[i])) > 0 then
+        Result.Add(TSQL.New(Trim(StringList.Strings[i])));
+  finally
+    StringList.Free;
+  end;
 end;
 
 end.
