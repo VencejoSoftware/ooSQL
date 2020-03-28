@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -16,24 +16,22 @@ interface
 
 uses
   SysUtils,
-  Key,
+  SQLField,
   SQLSort;
 
 type
 {$REGION 'documentation'}
 {
   @abstract(Implementation of @link(ISQLSort))
-  @member(Key @seealso(ISQLSort.Key))
+  @member(Field @seealso(ISQLSort.Field))
   @member(Direction @seealso(ISQLSort.Direction))
   @member(Syntax @seealso(IStatement.Syntax))
-  @member(
-    New Create a new @classname as interface
-  )
+  @member(New Create a new @classname as interface)
 }
 {$ENDREGION}
   TNoneSQLSort = class(TInterfacedObject, ISQLSort)
   public
-    function Key: ITextKey;
+    function Field: ISQLField;
     function Direction: TSQLSortDirection;
     function Syntax: String;
     class function New: ISQLSort;
@@ -41,7 +39,7 @@ type
 
 implementation
 
-function TNoneSQLSort.Key: ITextKey;
+function TNoneSQLSort.Field: ISQLField;
 begin
   Result := nil;
 end;

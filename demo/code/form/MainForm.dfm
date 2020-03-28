@@ -34,8 +34,6 @@ object MainForm: TMainForm
     Caption = 'Parse'
     TabOrder = 0
     OnClick = btnParseClick
-    ExplicitLeft = 364
-    ExplicitTop = 313
   end
   object edSQLRaw: TMemo
     Left = 8
@@ -51,7 +49,6 @@ object MainForm: TMainForm
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 431
   end
   object edSQLParsed: TMemo
     Left = 8
@@ -67,8 +64,6 @@ object MainForm: TMainForm
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitWidth = 431
-    ExplicitHeight = 169
   end
   object edParamName: TEdit
     Left = 150

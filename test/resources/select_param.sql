@@ -1,0 +1,6 @@
+SELECT 1
+FROM TABLE
+WHERE
+  FIELD1 = :Param1
+  AND FIELD2 = :Param2
+  AND FIELD3 = :Param1a

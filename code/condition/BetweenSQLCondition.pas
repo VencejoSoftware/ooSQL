@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -16,9 +16,7 @@ interface
 
 uses
   SysUtils,
-  Key,
-  SyntaxFormat,
-  AndSQLJoin,
+  SQLField,
   SQLParameter,
   SQLCondition;
 
@@ -26,52 +24,46 @@ type
 {$REGION 'documentation'}
 {
   @abstract(Implementation of @link(ISQLCondition))
-  Resolve SQL between condition as syntax. For example: [KEY_FIELD] BETWEEN [PARAMETER1] AND [PARAMETER2]
-  @member(Key @seealso(ISQLCondition.Key))
+  Resolve SQL between condition as syntax. For example: [FIELD] BETWEEN [PARAMETER1] AND [PARAMETER2]
+  @member(Field @seealso(ISQLCondition.Field))
   @member(Syntax @seealso(ISQLCondition.Syntax))
   @member(IsValid @seealso(ISQLCondition.IsValid))
   @member(
     Create Object constructor
-    @param(Key Condition field)
+    @param(Field Condition field)
     @param(Parameter1 First parameter)
     @param(Parameter2 Second parameter)
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
   @member(
     New Create a new @classname as interface
-    @param(Key Condition field)
+    @param(Field Condition field)
     @param(Parameter1 First parameter)
     @param(Parameter2 Second parameter)
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
 }
 {$ENDREGION}
   TBetweenSQLCondition = class sealed(TInterfacedObject, ISQLCondition)
   strict private
-    _Key: ITextKey;
+    _Field: ISQLField;
     _Parameter1, _Parameter2: ISQLParameter;
-    _SyntaxFormat: ISyntaxFormat;
   public
-    function Key: ITextKey;
+    function Field: ISQLField;
     function Syntax: String;
     function IsValid: Boolean;
-    constructor Create(const Key: ITextKey; const Parameter1, Parameter2: ISQLParameter;
-      const SyntaxFormat: ISyntaxFormat);
-    class function New(const Key: ITextKey; const Parameter1, Parameter2: ISQLParameter;
-      const SyntaxFormat: ISyntaxFormat): ISQLCondition;
+    constructor Create(const Field: ISQLField; const Parameter1, Parameter2: ISQLParameter);
+    class function New(const Field: ISQLField; const Parameter1, Parameter2: ISQLParameter): ISQLCondition;
   end;
 
 implementation
 
-function TBetweenSQLCondition.Key: ITextKey;
+function TBetweenSQLCondition.Field: ISQLField;
 begin
-  Result := _Key;
+  Result := _Field;
 end;
 
 function TBetweenSQLCondition.Syntax: String;
 begin
-  Result := _SyntaxFormat.ItemsFormat([_Key.Value, 'BETWEEN', _Parameter1.Value.Syntax, TAndSQLJoin.New.Syntax,
-    _Parameter2.Value.Syntax], [Spaced]);
+  Result := _Field.Name + ' BETWEEN ' + _Parameter1.Value.Content + ' AND ' + _Parameter2.Value.Content;
 end;
 
 function TBetweenSQLCondition.IsValid: Boolean;
@@ -80,19 +72,17 @@ begin
   Result := Result and (Assigned(_Parameter2) and not _Parameter2.IsNull);
 end;
 
-constructor TBetweenSQLCondition.Create(const Key: ITextKey; const Parameter1, Parameter2: ISQLParameter;
-  const SyntaxFormat: ISyntaxFormat);
+constructor TBetweenSQLCondition.Create(const Field: ISQLField; const Parameter1, Parameter2: ISQLParameter);
 begin
-  _Key := Key;
+  _Field := Field;
   _Parameter1 := Parameter1;
   _Parameter2 := Parameter2;
-  _SyntaxFormat := SyntaxFormat;
 end;
 
-class function TBetweenSQLCondition.New(const Key: ITextKey; const Parameter1, Parameter2: ISQLParameter;
-  const SyntaxFormat: ISyntaxFormat): ISQLCondition;
+class function TBetweenSQLCondition.New(const Field: ISQLField; const Parameter1, Parameter2: ISQLParameter)
+  : ISQLCondition;
 begin
-  Result := TBetweenSQLCondition.Create(Key, Parameter1, Parameter2, SyntaxFormat);
+  Result := TBetweenSQLCondition.Create(Field, Parameter1, Parameter2);
 end;
 
 end.

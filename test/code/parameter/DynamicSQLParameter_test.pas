@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -9,16 +9,9 @@ interface
 
 uses
   SysUtils,
-  BooleanSQLParameterValue,
-  DateSQLParameterValue,
-  ExtendedSQLParameterValue,
-  IntegerSQLParameterValue,
+  SQLParameter, DynamicSQLParameter,
+  SQLParameterValue,
   UIntegerSQLParameterValue,
-  StringSQLParameterValue,
-  DateTimeSQLParameterValue,
-  ListSQLParameterValue,
-  SQLParameter,
-  DynamicSQLParameter,
 {$IFDEF FPC}
   fpcunit, testregistry
 {$ELSE}
@@ -27,61 +20,81 @@ uses
 
 type
   TDynamicSQLParameterTest = class sealed(TTestCase)
+  private
+    function ParameterValueCallback(const Parameter: ISQLParameter): ISQLParameterValue;
   published
     procedure NameIsParameter1;
-    procedure SyntaxIsPrefixParameter1;
+    procedure SyntaxIsParameter1;
     procedure IsNullIsTrue;
-    procedure ChangeValueReturnIsNullFalse;
-    procedure AssignedValueAndClearReturnIsNullTrue;
+    procedure IsNullIsFalse;
+    procedure AssignedCallbackContentReturnMaxInt;
+    procedure NotAssignedCallbackContentReturnNil;
   end;
 
 implementation
+
+function TDynamicSQLParameterTest.ParameterValueCallback(const Parameter: ISQLParameter): ISQLParameterValue;
+begin
+  if Parameter.Name = 'Parameter1' then
+    Result := TUIntegerSQLParameterValue.New(MaxInt)
+  else
+    Result := nil;
+end;
 
 procedure TDynamicSQLParameterTest.NameIsParameter1;
 var
   Parameter: ISQLParameter;
 begin
-  Parameter := TDynamicSQLParameter.New('Parameter1');
+  Parameter := TDynamicSQLParameter.New('Parameter1', {$IFDEF FPC}nil, {$ENDIF} ParameterValueCallback);
   CheckEquals('Parameter1', Parameter.Name);
 end;
 
-procedure TDynamicSQLParameterTest.SyntaxIsPrefixParameter1;
+procedure TDynamicSQLParameterTest.SyntaxIsParameter1;
 var
   Parameter: ISQLParameter;
 begin
-  Parameter := TDynamicSQLParameter.New('Parameter1');
+  Parameter := TDynamicSQLParameter.New('Parameter1', {$IFDEF FPC}nil, {$ENDIF} ParameterValueCallback);
   CheckEquals(':Parameter1', Parameter.Syntax);
+end;
+
+procedure TDynamicSQLParameterTest.IsNullIsFalse;
+var
+  Parameter: ISQLParameter;
+begin
+  Parameter := TDynamicSQLParameter.New('Parameter1', {$IFDEF FPC}nil, {$ENDIF} ParameterValueCallback);
+  CheckFalse(Parameter.IsNull);
 end;
 
 procedure TDynamicSQLParameterTest.IsNullIsTrue;
 var
   Parameter: ISQLParameter;
 begin
-  Parameter := TDynamicSQLParameter.New('Parameter1');
+  Parameter := TDynamicSQLParameter.New('Parameter1', {$IFDEF FPC}nil, {$ENDIF} nil);
   CheckTrue(Parameter.IsNull);
 end;
 
-procedure TDynamicSQLParameterTest.ChangeValueReturnIsNullFalse;
+procedure TDynamicSQLParameterTest.AssignedCallbackContentReturnMaxInt;
 var
   Parameter: ISQLParameter;
+  Value: ISQLParameterValue;
 begin
-  Parameter := TDynamicSQLParameter.New('Parameter1');
-  Parameter.ChangeValue(TIntegerSQLParameterValue.New(666));
-  CheckFalse(Parameter.IsNull);
+  Parameter := TDynamicSQLParameter.New('Parameter1', {$IFDEF FPC}nil, {$ENDIF} ParameterValueCallback);
+  Value := Parameter.Value;
+  CheckTrue(Supports(Value, IUIntegerSQLParameterValue));
+  if Supports(Value, IUIntegerSQLParameterValue) then
+    CheckEquals(MaxInt, (Value as IUIntegerSQLParameterValue).Value);
 end;
 
-procedure TDynamicSQLParameterTest.AssignedValueAndClearReturnIsNullTrue;
+procedure TDynamicSQLParameterTest.NotAssignedCallbackContentReturnNil;
 var
   Parameter: ISQLParameter;
 begin
-  Parameter := TDynamicSQLParameter.New('Parameter1');
-  Parameter.ChangeValue(TIntegerSQLParameterValue.New(666));
-  Parameter.Clear;
-  CheckTrue(Parameter.IsNull);
+  Parameter := TDynamicSQLParameter.New('Parameter1', {$IFDEF FPC}nil, {$ENDIF} nil);
+  CheckFalse(Assigned(Parameter.Value));
 end;
 
 initialization
 
-RegisterTest(TDynamicSQLParameterTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest('Parameter', TDynamicSQLParameterTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.

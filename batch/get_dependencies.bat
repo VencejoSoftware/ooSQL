@@ -17,9 +17,3 @@ if not exist %delphiooLib%\ooText\ (
   git clone https://github.com/VencejoSoftware/ooText.git %delphiooLib%\ooText\
   call %delphiooLib%\ooText\batch\get_dependencies.bat
 )
-
-if not exist %delphiooLib%\ooEntity\ (
-  @echo "Clonning ooEntity..."
-  git clone https://github.com/VencejoSoftware/ooEntity.git %delphiooLib%\ooEntity\
-  call %delphiooLib%\ooEntity\batch\get_dependencies.bat
-)

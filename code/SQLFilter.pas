@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -15,10 +15,9 @@ unit SQLFilter;
 interface
 
 uses
-  Key,
   Statement,
+  SQLField,
   SQLJoin,
-  SyntaxFormat,
   SQLCondition;
 
 type
@@ -45,7 +44,7 @@ type
 {$REGION 'documentation'}
 {
   @abstract(Implementation of @link(ISQLFilter))
-  @member(Key @seealso(ISQLCondition.Key))
+  @member(Field @seealso(ISQLCondition.Field))
   @member(Syntax @seealso(ISQLCondition.Syntax))
   @member(IsValid @seealso(ISQLCondition.IsValid))
   @member(Join @seealso(ISQLFilter.Join))
@@ -53,12 +52,10 @@ type
   @member(
     Create Object constructor
     @param(Join @link(ISQLJoin Join object))
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
   @member(
     New Create a new @classname as interface
     @param(Join @link(ISQLJoin Join object))
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
 }
 {$ENDREGION}
@@ -67,20 +64,19 @@ type
   strict private
     _Join: ISQLJoin;
     _ConditionList: ISQLConditionList;
-    _SyntaxFormat: ISyntaxFormat;
   public
-    function Key: ITextKey;
+    function Field: ISQLField;
     function Syntax: String;
     function IsValid: Boolean;
     function Join: ISQLJoin;
     function ConditionList: ISQLConditionList;
-    constructor Create(const Join: ISQLJoin; const SyntaxFormat: ISyntaxFormat);
-    class function New(const Join: ISQLJoin; const SyntaxFormat: ISyntaxFormat): ISQLFilter;
+    constructor Create(const Join: ISQLJoin);
+    class function New(const Join: ISQLJoin): ISQLFilter;
   end;
 
 implementation
 
-function TSQLFilter.Key: ITextKey;
+function TSQLFilter.Field: ISQLField;
 begin
   Result := nil;
 end;
@@ -97,7 +93,10 @@ end;
 
 function TSQLFilter.Syntax: String;
 begin
-  Result := _SyntaxFormat.ItemsFormat([_Join.Syntax, _ConditionList.Syntax], [Spaced]);
+  Result := _Join.Syntax;
+  if Length(Result) > 0 then
+    Result := Result + ' ';
+  Result := Result + _ConditionList.Syntax;
 end;
 
 function TSQLFilter.IsValid: Boolean;
@@ -105,16 +104,15 @@ begin
   Result := _ConditionList.IsValid;
 end;
 
-constructor TSQLFilter.Create(const Join: ISQLJoin; const SyntaxFormat: ISyntaxFormat);
+constructor TSQLFilter.Create(const Join: ISQLJoin);
 begin
-  _ConditionList := TSQLConditionList.New(SyntaxFormat);
+  _ConditionList := TSQLConditionList.New;
   _Join := Join;
-  _SyntaxFormat := SyntaxFormat;
 end;
 
-class function TSQLFilter.New(const Join: ISQLJoin; const SyntaxFormat: ISyntaxFormat): ISQLFilter;
+class function TSQLFilter.New(const Join: ISQLJoin): ISQLFilter;
 begin
-  Result := TSQLFilter.Create(Join, SyntaxFormat);
+  Result := TSQLFilter.Create(Join);
 end;
 
 end.

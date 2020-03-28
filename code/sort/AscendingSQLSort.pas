@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -15,47 +15,45 @@ unit AscendingSQLSort;
 interface
 
 uses
-  Key,
-  SyntaxFormat,
+  SQLField,
   SQLSort;
 
 type
 {$REGION 'documentation'}
 {
   @abstract(Implementation of @link(ISQLSort))
-  Resolve SQL sort ascending as syntax. For example: [KEY_FIELD] DESC
-  @member(Key @seealso(ISQLSort.Key))
+  Resolve SQL sort ascending as syntax. For example: [FIELD] DESC
+  @member(Field @seealso(ISQLSort.Field))
   @member(Direction @seealso(ISQLSort.Direction))
   @member(Syntax @seealso(IStatement.Syntax))
   @member(
     Create Object constructor
-    @param(Key Field to sort)
+    @param(Field Field to sort)
     @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
   @member(
     New Create a new @classname as interface
-    @param(Key Field to sort)
+    @param(Field Field to sort)
     @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
 }
 {$ENDREGION}
   TAscendingSQLSort = class(TInterfacedObject, ISQLSort)
   strict private
-    _Key: ITextKey;
-    _SyntaxFormat: ISyntaxFormat;
+    _Field: ISQLField;
   public
-    function Key: ITextKey;
+    function Field: ISQLField;
     function Direction: TSQLSortDirection;
     function Syntax: String;
-    constructor Create(const Key: ITextKey; const SyntaxFormat: ISyntaxFormat);
-    class function New(const Key: ITextKey; const SyntaxFormat: ISyntaxFormat): ISQLSort;
+    constructor Create(const Field: ISQLField);
+    class function New(const Field: ISQLField): ISQLSort;
   end;
 
 implementation
 
-function TAscendingSQLSort.Key: ITextKey;
+function TAscendingSQLSort.Field: ISQLField;
 begin
-  Result := _Key;
+  Result := _Field;
 end;
 
 function TAscendingSQLSort.Direction: TSQLSortDirection;
@@ -65,18 +63,17 @@ end;
 
 function TAscendingSQLSort.Syntax: String;
 begin
-  Result := _SyntaxFormat.ItemsFormat([Key.Value, 'ASC'], [Spaced]);
+  Result := Field.Name + ' ASC';
 end;
 
-constructor TAscendingSQLSort.Create(const Key: ITextKey; const SyntaxFormat: ISyntaxFormat);
+constructor TAscendingSQLSort.Create(const Field: ISQLField);
 begin
-  _Key := Key;
-  _SyntaxFormat := SyntaxFormat;
+  _Field := Field;
 end;
 
-class function TAscendingSQLSort.New(const Key: ITextKey; const SyntaxFormat: ISyntaxFormat): ISQLSort;
+class function TAscendingSQLSort.New(const Field: ISQLField): ISQLSort;
 begin
-  Result := TAscendingSQLSort.Create(Key, SyntaxFormat);
+  Result := TAscendingSQLSort.Create(Field);
 end;
 
 end.

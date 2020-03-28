@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -9,8 +9,7 @@ interface
 
 uses
   SysUtils,
-  Key,
-  SyntaxFormat, SyntaxFormatSymbol, SymbolListMock,
+  SQLField,
   SQLSort,
   DescendingSQLSort,
 {$IFDEF FPC}
@@ -26,16 +25,16 @@ type
   public
     procedure SetUp; override;
   published
-    procedure KeyIsField1;
+    procedure FieldIsField1;
     procedure DirectionIsDescending;
     procedure SyntaxField1Desc;
   end;
 
 implementation
 
-procedure TDescendingSQLSortTest.KeyIsField1;
+procedure TDescendingSQLSortTest.FieldIsField1;
 begin
-  CheckEquals('Field1', _Sort.Key.Value);
+  CheckEquals('Field1', _Sort.Field.Name);
 end;
 
 procedure TDescendingSQLSortTest.DirectionIsDescending;
@@ -51,11 +50,11 @@ end;
 procedure TDescendingSQLSortTest.SetUp;
 begin
   inherited;
-  _Sort := TDescendingSQLSort.New(TTextKey.New('Field1'), TSyntaxFormat.New(TSymbolListMock.New));
+  _Sort := TDescendingSQLSort.New(TSQLField.New('Field1'));
 end;
 
 initialization
 
-RegisterTest(TDescendingSQLSortTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest('Sort', TDescendingSQLSortTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.

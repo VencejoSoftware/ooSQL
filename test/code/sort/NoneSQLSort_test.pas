@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -29,7 +29,7 @@ implementation
 
 procedure TNoneSQLSortTest.KeyIsNil;
 begin
-  CheckTrue(not Assigned(TNoneSQLSort.New.Key));
+  CheckFalse(Assigned(TNoneSQLSort.New.Field));
 end;
 
 procedure TNoneSQLSortTest.DirectionIsNone;
@@ -44,6 +44,6 @@ end;
 
 initialization
 
-RegisterTest(TNoneSQLSortTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest('Sort', TNoneSQLSortTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.

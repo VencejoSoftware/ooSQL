@@ -1,9 +1,11 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
 program test;
+
+{$R 'sql.res' '..\resources\sql.rc'}
 
 uses
   RunTest,
@@ -19,6 +21,7 @@ uses
   LessSQLCondition in '..\..\code\condition\LessSQLCondition.pas',
   LikeSQLCondition in '..\..\code\condition\LikeSQLCondition.pas',
   NotEqualSQLCondition in '..\..\code\condition\NotEqualSQLCondition.pas',
+  SingleSQLCondition in '..\..\code\condition\SingleSQLCondition.pas',
   SQLCondition in '..\..\code\condition\SQLCondition.pas',
   AndNotSQLJoin in '..\..\code\join\AndNotSQLJoin.pas',
   AndSQLJoin in '..\..\code\join\AndSQLJoin.pas',
@@ -27,20 +30,20 @@ uses
   OrSQLJoin in '..\..\code\join\OrSQLJoin.pas',
   SQLJoin in '..\..\code\join\SQLJoin.pas',
   WhereSQL in '..\..\code\join\WhereSQL.pas',
-  BooleanSQLParameterValue in '..\..\code\parameter\BooleanSQLParameterValue.pas',
-  DateSQLParameterValue in '..\..\code\parameter\DateSQLParameterValue.pas',
-  DateTimeSQLParameterValue in '..\..\code\parameter\DateTimeSQLParameterValue.pas',
-  DynamicSQLParameter in '..\..\code\parameter\DynamicSQLParameter.pas',
-  DynamicSQLParameterValue in '..\..\code\parameter\DynamicSQLParameterValue.pas',
-  ExtendedFormatSetting in '..\..\code\parameter\ExtendedFormatSetting.pas',
-  ExtendedSQLParameterValue in '..\..\code\parameter\ExtendedSQLParameterValue.pas',
-  IntegerSQLParameterValue in '..\..\code\parameter\IntegerSQLParameterValue.pas',
-  ListSQLParameterValue in '..\..\code\parameter\ListSQLParameterValue.pas',
-  NullSQLParameterValue in '..\..\code\parameter\NullSQLParameterValue.pas',
+  BooleanSQLParameterValue in '..\..\code\parameter\value\BooleanSQLParameterValue.pas',
+  DateSQLParameterValue in '..\..\code\parameter\value\DateSQLParameterValue.pas',
+  DateTimeSQLParameterValue in '..\..\code\parameter\value\DateTimeSQLParameterValue.pas',
+  ReplaceableSQLParameter in '..\..\code\parameter\ReplaceableSQLParameter.pas',
+  ReplaceableSQLParameterValue in '..\..\code\parameter\value\ReplaceableSQLParameterValue.pas',
+  ExtendedFormatSetting in '..\..\code\parameter\value\ExtendedFormatSetting.pas',
+  ExtendedSQLParameterValue in '..\..\code\parameter\value\ExtendedSQLParameterValue.pas',
+  IntegerSQLParameterValue in '..\..\code\parameter\value\IntegerSQLParameterValue.pas',
+  ListSQLParameterValue in '..\..\code\parameter\value\ListSQLParameterValue.pas',
+  NullSQLParameterValue in '..\..\code\parameter\value\NullSQLParameterValue.pas',
   SQLParameter in '..\..\code\parameter\SQLParameter.pas',
-  SQLParameterValue in '..\..\code\parameter\SQLParameterValue.pas',
-  StringSQLParameterValue in '..\..\code\parameter\StringSQLParameterValue.pas',
-  UIntegerSQLParameterValue in '..\..\code\parameter\UIntegerSQLParameterValue.pas',
+  SQLParameterValue in '..\..\code\parameter\value\SQLParameterValue.pas',
+  StringSQLParameterValue in '..\..\code\parameter\value\StringSQLParameterValue.pas',
+  UIntegerSQLParameterValue in '..\..\code\parameter\value\UIntegerSQLParameterValue.pas',
   AscendingSQLSort in '..\..\code\sort\AscendingSQLSort.pas',
   DescendingSQLSort in '..\..\code\sort\DescendingSQLSort.pas',
   NoneSQLSort in '..\..\code\sort\NoneSQLSort.pas',
@@ -61,26 +64,27 @@ uses
   LessSQLCondition_test in '..\code\condition\LessSQLCondition_test.pas',
   LikeSQLCondition_test in '..\code\condition\LikeSQLCondition_test.pas',
   NotEqualSQLCondition_test in '..\code\condition\NotEqualSQLCondition_test.pas',
+  SQLConditionList_test in '..\code\condition\SQLConditionList_test.pas',
   AndNotSQLJoin_test in '..\code\join\AndNotSQLJoin_test.pas',
   AndSQLJoin_test in '..\code\join\AndSQLJoin_test.pas',
   NoneSQLJoin_test in '..\code\join\NoneSQLJoin_test.pas',
   OrNotSQLJoin_test in '..\code\join\OrNotSQLJoin_test.pas',
   OrSQLJoin_test in '..\code\join\OrSQLJoin_test.pas',
   WhereSQL_test in '..\code\join\WhereSQL_test.pas',
-  SymbolListMock in '..\code\mock\SymbolListMock.pas',
-  BooleanSQLParameterValue_test in '..\code\parameter\BooleanSQLParameterValue_test.pas',
-  DateSQLParameterValue_test in '..\code\parameter\DateSQLParameterValue_test.pas',
-  DateTimeSQLParameterValue_test in '..\code\parameter\DateTimeSQLParameterValue_test.pas',
-  DynamicSQLParameterValue_test in '..\code\parameter\DynamicSQLParameterValue_test.pas',
-  ExtendedFormatSettingValue_test in '..\code\parameter\ExtendedFormatSettingValue_test.pas',
-  ExtendedSQLParameterValue_test in '..\code\parameter\ExtendedSQLParameterValue_test.pas',
-  IntegerSQLParameterValue_test in '..\code\parameter\IntegerSQLParameterValue_test.pas',
-  ListSQLParameterValue_test in '..\code\parameter\ListSQLParameterValue_test.pas',
-  NullSQLParameterValue_test in '..\code\parameter\NullSQLParameterValue_test.pas',
-  RawSQLParameterValue_test in '..\code\parameter\RawSQLParameterValue_test.pas',
-  SQLParameter_test in '..\code\parameter\SQLParameter_test.pas',
-  StringSQLParameterValue_test in '..\code\parameter\StringSQLParameterValue_test.pas',
-  UIntegerSQLParameterValue_test in '..\code\parameter\UIntegerSQLParameterValue_test.pas',
+  BooleanSQLParameterValue_test in '..\code\parameter\value\BooleanSQLParameterValue_test.pas',
+  DateSQLParameterValue_test in '..\code\parameter\value\DateSQLParameterValue_test.pas',
+  DateTimeSQLParameterValue_test in '..\code\parameter\value\DateTimeSQLParameterValue_test.pas',
+  ReplaceableSQLParameter_test in '..\code\parameter\ReplaceableSQLParameter_test.pas',
+  ReplaceableSQLParameterValue_test in '..\code\parameter\value\ReplaceableSQLParameterValue_test.pas',
+  ExtendedFormatSettingValue_test in '..\code\parameter\value\ExtendedFormatSettingValue_test.pas',
+  ExtendedSQLParameterValue_test in '..\code\parameter\value\ExtendedSQLParameterValue_test.pas',
+  IntegerSQLParameterValue_test in '..\code\parameter\value\IntegerSQLParameterValue_test.pas',
+  ListSQLParameterValue_test in '..\code\parameter\value\ListSQLParameterValue_test.pas',
+  NullSQLParameterValue_test in '..\code\parameter\value\NullSQLParameterValue_test.pas',
+  SQLParameterValue_test in '..\code\parameter\value\SQLParameterValue_test.pas',
+  StaticSQLParameter_test in '..\code\parameter\StaticSQLParameter_test.pas',
+  StringSQLParameterValue_test in '..\code\parameter\value\StringSQLParameterValue_test.pas',
+  UIntegerSQLParameterValue_test in '..\code\parameter\value\UIntegerSQLParameterValue_test.pas',
   AscendingSQLSort_test in '..\code\sort\AscendingSQLSort_test.pas',
   DescendingSQLSort_test in '..\code\sort\DescendingSQLSort_test.pas',
   NoneSQLSort_test in '..\code\sort\NoneSQLSort_test.pas',
@@ -88,9 +92,22 @@ uses
   SQLFilter_test in '..\code\SQLFilter_test.pas',
   SQLFiltered_test in '..\code\SQLFiltered_test.pas',
   SQLInjectedFilter_test in '..\code\SQLInjectedFilter_test.pas',
-  SingleSQLCondition in '..\..\code\condition\SingleSQLCondition.pas',
+  Statement in '..\..\code\Statement.pas',
+  SQLField in '..\..\code\SQLField.pas',
+  StoredText in '..\..\code\store\StoredText.pas',
+  ResourceStoredText in '..\..\code\store\ResourceStoredText.pas',
+  ResourceStoredText_test in '..\code\store\ResourceStoredText_test.pas',
+  StoredSQL in '..\..\code\store\StoredSQL.pas',
+  StoredSQL_test in '..\code\store\StoredSQL_test.pas',
+  StaticSQLParameter in '..\..\code\parameter\StaticSQLParameter.pas',
+  MutableSQLParameter in '..\..\code\parameter\MutableSQLParameter.pas',
+  MutableSQLParameter_test in '..\code\parameter\MutableSQLParameter_test.pas',
+  DynamicSQLParameter in '..\..\code\parameter\DynamicSQLParameter.pas',
   DynamicSQLParameter_test in '..\code\parameter\DynamicSQLParameter_test.pas',
-  SQLConditionList_test in '..\code\condition\SQLConditionList_test.pas';
+  RawSQLCondition in '..\..\code\condition\RawSQLCondition.pas',
+  RawSQLCondition_test in '..\code\condition\RawSQLCondition_test.pas',
+  FileStoredText in '..\..\code\store\FileStoredText.pas',
+  FileStoredText_test in '..\code\store\FileStoredText_test.pas';
 
 {R *.RES}
 
@@ -98,3 +115,4 @@ begin
   Run;
 
 end.
+

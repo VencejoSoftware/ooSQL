@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -9,10 +9,9 @@ interface
 
 uses
   SysUtils,
-  Key,
-  SyntaxFormat, SyntaxFormatSymbol, SymbolListMock,
+  SQLField,
   IntegerSQLParameterValue,
-  SQLParameter,
+  SQLParameter, StaticSQLParameter,
   SQLCondition,
   BetweenSQLCondition,
 {$IFDEF FPC}
@@ -24,7 +23,7 @@ uses
 type
   TBetweenSQLConditionTest = class sealed(TTestCase)
   published
-    procedure KeyIsFieldTest;
+    procedure FieldIsFieldTest;
     procedure SyntaxIsFieldTestBetween200And300;
     procedure NilValueReturnIsValidFalse;
     procedure ValueNilReturnIsValidFalse;
@@ -35,19 +34,16 @@ type
 
 implementation
 
-procedure TBetweenSQLConditionTest.KeyIsFieldTest;
+procedure TBetweenSQLConditionTest.FieldIsFieldTest;
 var
   Condition: ISQLCondition;
   Param1: ISQLParameter;
   Param2: ISQLParameter;
 begin
-  Param1 := TSQLParameter.New('Param1');
-  Param1.ChangeValue(TIntegerSQLParameterValue.New(200));
-  Param2 := TSQLParameter.New('Param2');
-  Param2.ChangeValue(TIntegerSQLParameterValue.New(300));
-  Condition := TBetweenSQLCondition.New(TTextKey.New('FieldTest'), Param1, Param2,
-    TSyntaxFormat.New(TSymbolListMock.New));
-  CheckEquals('FieldTest', Condition.Key.Value);
+  Param1 := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(200));
+  Param2 := TStaticSQLParameter.New('Param2', TIntegerSQLParameterValue.New(300));
+  Condition := TBetweenSQLCondition.New(TSQLField.New('FieldTest'), Param1, Param2);
+  CheckEquals('FieldTest', Condition.Field.Name);
 end;
 
 procedure TBetweenSQLConditionTest.SyntaxIsFieldTestBetween200And300;
@@ -56,12 +52,9 @@ var
   Param1: ISQLParameter;
   Param2: ISQLParameter;
 begin
-  Param1 := TSQLParameter.New('Param1');
-  Param1.ChangeValue(TIntegerSQLParameterValue.New(200));
-  Param2 := TSQLParameter.New('Param2');
-  Param2.ChangeValue(TIntegerSQLParameterValue.New(300));
-  Condition := TBetweenSQLCondition.New(TTextKey.New('FieldTest'), Param1, Param2,
-    TSyntaxFormat.New(TSymbolListMock.New));
+  Param1 := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(200));
+  Param2 := TStaticSQLParameter.New('Param2', TIntegerSQLParameterValue.New(300));
+  Condition := TBetweenSQLCondition.New(TSQLField.New('FieldTest'), Param1, Param2);
   CheckEquals('FieldTest BETWEEN 200 AND 300', Condition.Syntax);
 end;
 
@@ -70,9 +63,8 @@ var
   Condition: ISQLCondition;
   Param2: ISQLParameter;
 begin
-  Param2 := TSQLParameter.New('Param2');
-  Param2.ChangeValue(TIntegerSQLParameterValue.New(300));
-  Condition := TBetweenSQLCondition.New(TTextKey.New('FieldTest'), nil, Param2, TSyntaxFormat.New(TSymbolListMock.New));
+  Param2 := TStaticSQLParameter.New('Param2', TIntegerSQLParameterValue.New(300));
+  Condition := TBetweenSQLCondition.New(TSQLField.New('FieldTest'), nil, Param2);
   CheckFalse(Condition.IsValid);
 end;
 
@@ -81,9 +73,8 @@ var
   Condition: ISQLCondition;
   Param1: ISQLParameter;
 begin
-  Param1 := TSQLParameter.New('Param1');
-  Param1.ChangeValue(TIntegerSQLParameterValue.New(200));
-  Condition := TBetweenSQLCondition.New(TTextKey.New('FieldTest'), Param1, nil, TSyntaxFormat.New(TSymbolListMock.New));
+  Param1 := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(200));
+  Condition := TBetweenSQLCondition.New(TSQLField.New('FieldTest'), Param1, nil);
   CheckFalse(Condition.IsValid);
 end;
 
@@ -91,7 +82,7 @@ procedure TBetweenSQLConditionTest.BothNilReturnIsValidFalse;
 var
   Condition: ISQLCondition;
 begin
-  Condition := TBetweenSQLCondition.New(TTextKey.New('FieldTest'), nil, nil, TSyntaxFormat.New(TSymbolListMock.New));
+  Condition := TBetweenSQLCondition.New(TSQLField.New('FieldTest'), nil, nil);
   CheckFalse(Condition.IsValid);
 end;
 
@@ -101,11 +92,9 @@ var
   Param1: ISQLParameter;
   Param2: ISQLParameter;
 begin
-  Param1 := TSQLParameter.New('Param1');
-  Param2 := TSQLParameter.New('Param2');
-  Param2.ChangeValue(TIntegerSQLParameterValue.New(300));
-  Condition := TBetweenSQLCondition.New(TTextKey.New('FieldTest'), Param1, Param2,
-    TSyntaxFormat.New(TSymbolListMock.New));
+  Param1 := TStaticSQLParameter.New('Param1');
+  Param2 := TStaticSQLParameter.New('Param2', TIntegerSQLParameterValue.New(300));
+  Condition := TBetweenSQLCondition.New(TSQLField.New('FieldTest'), Param1, Param2);
   CheckFalse(Condition.IsValid);
 end;
 
@@ -115,16 +104,14 @@ var
   Param1: ISQLParameter;
   Param2: ISQLParameter;
 begin
-  Param1 := TSQLParameter.New('Param1');
-  Param1.ChangeValue(TIntegerSQLParameterValue.New(200));
-  Param2 := TSQLParameter.New('Param2');
-  Condition := TBetweenSQLCondition.New(TTextKey.New('FieldTest'), Param1, Param2,
-    TSyntaxFormat.New(TSymbolListMock.New));
+  Param1 := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(200));
+  Param2 := TStaticSQLParameter.New('Param2');
+  Condition := TBetweenSQLCondition.New(TSQLField.New('FieldTest'), Param1, Param2);
   CheckFalse(Condition.IsValid);
 end;
 
 initialization
 
-RegisterTest(TBetweenSQLConditionTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest('Filter condition', TBetweenSQLConditionTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.

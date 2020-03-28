@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -9,13 +9,15 @@ interface
 
 uses
   SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, StdCtrls,
-  SyntaxFormat, SyntaxFormatSymbol, SymbolListMock,
-  Key,
+  Dialogs,
+  SQLField,
   SQLFilter,
-  AndSQLJoin,
-  IntegerSQLParameterValue, StringSQLParameterValue, DateSQLParameterValue,
-  NotEqualSQLCondition,
-  SQLParameter, DynamicSQLParameter,
+  AndSQLJoin, NoneSQLJoin,
+  SQLParameterValue, IntegerSQLParameterValue, StringSQLParameterValue, DateSQLParameterValue,
+  ExtendedSQLParameterValue,
+  NotEqualSQLCondition, JoinedSQLCondition, EqualSQLCondition,
+  SQLParameter, DynamicSQLParameter, MutableSQLParameter, StaticSQLParameter,
+  FileStoredText, StoredSQL,
   SQL, SQLFiltered;
 
 type
@@ -44,30 +46,28 @@ implementation
 procedure TMainForm.btnParseClick(Sender: TObject);
 var
   SQL: ISQLFiltered;
-  Param: ISQLParameter;
+  Param: IMutableSQLParameter;
   Filter: ISQLFilter;
-  ParamList: ISQLParameterList;
-  SyntaxFormat: ISyntaxFormat;
+  ParamList: IMutableSQLParameterList;
 begin
-  SyntaxFormat := TSyntaxFormat.New(TSymbolListMock.New);
-  Filter := TSQLFilter.New(TAndSQLJoin.New, SyntaxFormat);
+  Filter := TSQLFilter.New(TAndSQLJoin.New);
   if Length(edParamValue.Text) > 0 then
   begin
-    Param := TSQLParameter.NewWithOutName;
+    Param := TMutableSQLParameter.NewWithOutName;
     Param.ChangeValue(TStringSQLParameterValue.New(edParamValue.Text));
-    Filter.ConditionList.Add(TNotEqualSQLCondition.New(TTextKey.New(edParamName.Text), Param, SyntaxFormat));
+    Filter.ConditionList.Add(TNotEqualSQLCondition.New(TSQLField.New(edParamName.Text), Param));
   end;
   SQL := TSQLFiltered.New(edSQLRaw.Text, Filter);
-  ParamList := TSQLParameterList.New;
-  ParamList.Add(TDynamicSQLParameter.New('PARAM1'));
+  ParamList := TMutableSQLParameterList.New;
+  ParamList.Add(TMutableSQLParameter.New('PARAM1'));
   ParamList.Last.ChangeValue(TIntegerSQLParameterValue.New(100));
-  ParamList.Add(TDynamicSQLParameter.New('PARAM2'));
+  ParamList.Add(TMutableSQLParameter.New('PARAM2'));
   ParamList.Last.ChangeValue(TStringSQLParameterValue.New('Text value%'));
-  ParamList.Add(TDynamicSQLParameter.New('PARAM3'));
+  ParamList.Add(TMutableSQLParameter.New('PARAM3'));
   ParamList.Last.ChangeValue(TDateSQLParameterValue.NewDefault(Now));
-  ParamList.Add(TDynamicSQLParameter.New('PARAM4'));
+  ParamList.Add(TMutableSQLParameter.New('PARAM4'));
   ParamList.Last.ChangeValue(TDateSQLParameterValue.NewDefault(Now + 1));
-  edSQLParsed.Text := SQL.Parse(ParamList);
+  edSQLParsed.Text := SQL.Parse(ParamList.SQLParameterList).Syntax;
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);

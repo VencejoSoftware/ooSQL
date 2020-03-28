@@ -1,0 +1,2 @@
+ID_SQL1 TEXT ..\resources\select1.sql
+ID_SQL_PARAM TEXT ..\resources\select_param.sql

@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -9,10 +9,9 @@ interface
 
 uses
   SysUtils,
-  Key,
-  SyntaxFormat, SyntaxFormatSymbol, SymbolListMock,
+  SQLField,
   IntegerSQLParameterValue,
-  SQLParameter,
+  SQLParameter, StaticSQLParameter,
   SQLCondition, SingleSQLCondition,
   EqualSQLCondition,
 {$IFDEF FPC}
@@ -24,7 +23,7 @@ uses
 type
   TEqualSQLConditionTest = class sealed(TTestCase)
   published
-    procedure KeyIsFieldTest;
+    procedure FieldIsFieldTest;
     procedure SyntaxIsFieldTestEqual200;
     procedure IsValidIsTrue;
     procedure EmptyValueReturnIsValidFalse;
@@ -34,15 +33,14 @@ type
 
 implementation
 
-procedure TEqualSQLConditionTest.KeyIsFieldTest;
+procedure TEqualSQLConditionTest.FieldIsFieldTest;
 var
   Parameter: ISQLParameter;
   Condition: ISQLCondition;
 begin
-  Parameter := TSQLParameter.New('Param1');
-  Parameter.ChangeValue(TIntegerSQLParameterValue.New(200));
-  Condition := TEqualSQLCondition.New(TTextKey.New('FieldTest'), Parameter, TSyntaxFormat.New(TSymbolListMock.New));
-  CheckEquals('FieldTest', Condition.Key.Value);
+  Parameter := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(200));
+  Condition := TEqualSQLCondition.New(TSQLField.New('FieldTest'), Parameter);
+  CheckEquals('FieldTest', Condition.Field.Name);
 end;
 
 procedure TEqualSQLConditionTest.SyntaxIsFieldTestEqual200;
@@ -50,10 +48,9 @@ var
   Parameter: ISQLParameter;
   Condition: ISQLCondition;
 begin
-  Parameter := TSQLParameter.New('Param1');
-  Parameter.ChangeValue(TIntegerSQLParameterValue.New(200));
-  Condition := TEqualSQLCondition.New(TTextKey.New('FieldTest'), Parameter, TSyntaxFormat.New(TSymbolListMock.New));
-  CheckEquals('FieldTest = 200', Condition.Syntax);
+  Parameter := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(200));
+  Condition := TEqualSQLCondition.New(TSQLField.New('FieldTest'), Parameter);
+  CheckEquals('FieldTest=200', Condition.Syntax);
 end;
 
 procedure TEqualSQLConditionTest.IsValidIsTrue;
@@ -61,9 +58,8 @@ var
   Parameter: ISQLParameter;
   Condition: ISQLCondition;
 begin
-  Parameter := TSQLParameter.New('Param1');
-  Parameter.ChangeValue(TIntegerSQLParameterValue.New(200));
-  Condition := TEqualSQLCondition.New(TTextKey.New('FieldTest'), Parameter, TSyntaxFormat.New(TSymbolListMock.New));
+  Parameter := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(200));
+  Condition := TEqualSQLCondition.New(TSQLField.New('FieldTest'), Parameter);
   CheckTrue(Condition.IsValid);
 end;
 
@@ -72,8 +68,8 @@ var
   Parameter: ISQLParameter;
   Condition: ISQLCondition;
 begin
-  Parameter := TSQLParameter.New('Param1');
-  Condition := TEqualSQLCondition.New(TTextKey.New('FieldTest'), Parameter, TSyntaxFormat.New(TSymbolListMock.New));
+  Parameter := TStaticSQLParameter.New('Param1');
+  Condition := TEqualSQLCondition.New(TSQLField.New('FieldTest'), Parameter);
   CheckFalse(Condition.IsValid);
 end;
 
@@ -81,7 +77,7 @@ procedure TEqualSQLConditionTest.EmptyParamReturnIsValidFalse;
 var
   Condition: ISQLCondition;
 begin
-  Condition := TEqualSQLCondition.New(TTextKey.New('FieldTest'), nil, TSyntaxFormat.New(TSymbolListMock.New));
+  Condition := TEqualSQLCondition.New(TSQLField.New('FieldTest'), nil);
   CheckFalse(Condition.IsValid);
 end;
 
@@ -90,14 +86,13 @@ var
   Parameter: ISQLParameter;
   Condition: ISingleSQLCondition;
 begin
-  Parameter := TSQLParameter.New('Param1');
-  Parameter.ChangeValue(TIntegerSQLParameterValue.New(200));
-  Condition := TEqualSQLCondition.New(TTextKey.New('FieldTest'), Parameter, TSyntaxFormat.New(TSymbolListMock.New));
-  CheckEquals('200', Condition.Parameter.Value.Syntax);
+  Parameter := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(200));
+  Condition := TEqualSQLCondition.New(TSQLField.New('FieldTest'), Parameter);
+  CheckEquals('200', Condition.Parameter.Value.Content);
 end;
 
 initialization
 
-RegisterTest(TEqualSQLConditionTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest('Filter condition', TEqualSQLConditionTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.
