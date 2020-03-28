@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -15,8 +15,7 @@ unit NotEqualSQLCondition;
 interface
 
 uses
-  Key,
-  SyntaxFormat,
+  SQLField,
   SQLParameter,
   SQLCondition,
   SingleSQLCondition;
@@ -25,21 +24,19 @@ type
 {$REGION 'documentation'}
 {
   @abstract(Implementation of @link(ISQLCondition))
-  Resolve SQL not equal condition as syntax. For example: [KEY_FIELD] <> [PARAMETER1]
-  @member(Key @seealso(ISQLCondition.Key))
+  Resolve SQL not equal condition as syntax. For example: [FIELD] <> [PARAMETER]
+  @member(Field @seealso(ISQLCondition.Field))
   @member(Syntax @seealso(ISQLCondition.Syntax))
   @member(IsValid @seealso(ISQLCondition.IsValid))
   @member(
     Create Object constructor
-    @param(Key Condition field)
+    @param(Field Condition field)
     @param(Parameter Parameter object)
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
   @member(
     New Create a new @classname as interface
-    @param(Key Condition field)
+    @param(Field Condition field)
     @param(Parameter Parameter object)
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
 }
 {$ENDREGION}
@@ -47,20 +44,19 @@ type
   private
     _Condition: ISingleSQLCondition;
   public
-    function Key: ITextKey;
+    function Field: ISQLField;
     function Syntax: String;
     function IsValid: Boolean;
     function Parameter: ISQLParameter;
-    constructor Create(const Key: ITextKey; const Parameter: ISQLParameter; const SyntaxFormat: ISyntaxFormat);
-    class function New(const Key: ITextKey; const Parameter: ISQLParameter; const SyntaxFormat: ISyntaxFormat)
-      : ISingleSQLCondition;
+    constructor Create(const Field: ISQLField; const Parameter: ISQLParameter);
+    class function New(const Field: ISQLField; const Parameter: ISQLParameter): ISingleSQLCondition;
   end;
 
 implementation
 
-function TNotEqualSQLCondition.Key: ITextKey;
+function TNotEqualSQLCondition.Field: ISQLField;
 begin
-  Result := _Condition.Key;
+  Result := _Condition.Field;
 end;
 
 function TNotEqualSQLCondition.Syntax: String;
@@ -78,16 +74,14 @@ begin
   Result := _Condition.Parameter;
 end;
 
-constructor TNotEqualSQLCondition.Create(const Key: ITextKey; const Parameter: ISQLParameter;
-  const SyntaxFormat: ISyntaxFormat);
+constructor TNotEqualSQLCondition.Create(const Field: ISQLField; const Parameter: ISQLParameter);
 begin
-  _Condition := TSingleSQLCondition.New(Key, '<>', Parameter, SyntaxFormat);
+  _Condition := TSingleSQLCondition.New(Field, '<>', Parameter);
 end;
 
-class function TNotEqualSQLCondition.New(const Key: ITextKey; const Parameter: ISQLParameter;
-  const SyntaxFormat: ISyntaxFormat): ISingleSQLCondition;
+class function TNotEqualSQLCondition.New(const Field: ISQLField; const Parameter: ISQLParameter): ISingleSQLCondition;
 begin
-  Result := TNotEqualSQLCondition.Create(Key, Parameter, SyntaxFormat);
+  Result := TNotEqualSQLCondition.Create(Field, Parameter);
 end;
 
 end.

@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -9,10 +9,9 @@ interface
 
 uses
   SysUtils,
-  Key,
-  SyntaxFormat, SyntaxFormatSymbol, SymbolListMock,
+  SQLField,
   IntegerSQLParameterValue,
-  SQLParameter,
+  SQLParameter, StaticSQLParameter,
   SQLCondition,
   InSQLCondition,
 {$IFDEF FPC}
@@ -24,7 +23,7 @@ uses
 type
   TInSQLConditionTest = class sealed(TTestCase)
   published
-    procedure KeyIsFieldTest;
+    procedure FieldIsFieldTest;
     procedure SyntaxIsFieldTestIn1234;
     procedure EmptyConditionReturnSyntaxEnclosed;
     procedure EmptyConditionReturnIsValidFalse;
@@ -34,12 +33,12 @@ type
 
 implementation
 
-procedure TInSQLConditionTest.KeyIsFieldTest;
+procedure TInSQLConditionTest.FieldIsFieldTest;
 var
   Condition: ISQLCondition;
 begin
-  Condition := TInSQLCondition.New(TTextKey.New('FieldTest'), [], TSyntaxFormat.New(TSymbolListMock.New));
-  CheckEquals('FieldTest', Condition.Key.Value);
+  Condition := TInSQLCondition.New(TSQLField.New('FieldTest'), []);
+  CheckEquals('FieldTest', Condition.Field.Name);
 end;
 
 procedure TInSQLConditionTest.SyntaxIsFieldTestIn1234;
@@ -50,24 +49,19 @@ var
   Param3: ISQLParameter;
   Param4: ISQLParameter;
 begin
-  Param1 := TSQLParameter.New('Param1');
-  Param1.ChangeValue(TIntegerSQLParameterValue.New(1));
-  Param2 := TSQLParameter.New('Param2');
-  Param2.ChangeValue(TIntegerSQLParameterValue.New(2));
-  Param3 := TSQLParameter.New('Param3');
-  Param3.ChangeValue(TIntegerSQLParameterValue.New(3));
-  Param4 := TSQLParameter.New('Param4');
-  Param4.ChangeValue(TIntegerSQLParameterValue.New(4));
-  Condition := TInSQLCondition.New(TTextKey.New('FieldTest'), [Param1, Param2, Param3, Param4],
-    TSyntaxFormat.New(TSymbolListMock.New));
-  CheckEquals('FieldTest IN (1, 2, 3, 4)', Condition.Syntax);
+  Param1 := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(1));
+  Param2 := TStaticSQLParameter.New('Param2', TIntegerSQLParameterValue.New(2));
+  Param3 := TStaticSQLParameter.New('Param3', TIntegerSQLParameterValue.New(3));
+  Param4 := TStaticSQLParameter.New('Param4', TIntegerSQLParameterValue.New(4));
+  Condition := TInSQLCondition.New(TSQLField.New('FieldTest'), [Param1, Param2, Param3, Param4]);
+  CheckEquals('FieldTest IN (1,2,3,4)', Condition.Syntax);
 end;
 
 procedure TInSQLConditionTest.EmptyConditionReturnSyntaxEnclosed;
 var
   Condition: ISQLCondition;
 begin
-  Condition := TInSQLCondition.New(TTextKey.New('FieldTest'), [], TSyntaxFormat.New(TSymbolListMock.New));
+  Condition := TInSQLCondition.New(TSQLField.New('FieldTest'), []);
   CheckEquals('FieldTest IN ()', Condition.Syntax);
 end;
 
@@ -75,7 +69,7 @@ procedure TInSQLConditionTest.EmptyConditionReturnIsValidFalse;
 var
   Condition: ISQLCondition;
 begin
-  Condition := TInSQLCondition.New(TTextKey.New('FieldTest'), [], TSyntaxFormat.New(TSymbolListMock.New));
+  Condition := TInSQLCondition.New(TSQLField.New('FieldTest'), []);
   CheckFalse(Condition.IsValid);
 end;
 
@@ -85,11 +79,9 @@ var
   Param1: ISQLParameter;
   Param2: ISQLParameter;
 begin
-  Param1 := TSQLParameter.New('Param1');
-  Param1.ChangeValue(TIntegerSQLParameterValue.New(1));
-  Param2 := TSQLParameter.New('Param2');
-  Condition := TInSQLCondition.New(TTextKey.New('FieldTest'), [Param1, Param2],
-    TSyntaxFormat.New(TSymbolListMock.New));
+  Param1 := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(1));
+  Param2 := TStaticSQLParameter.New('Param2');
+  Condition := TInSQLCondition.New(TSQLField.New('FieldTest'), [Param1, Param2]);
   CheckFalse(Condition.IsValid);
 end;
 
@@ -101,21 +93,16 @@ var
   Param3: ISQLParameter;
   Param4: ISQLParameter;
 begin
-  Param1 := TSQLParameter.New('Param1');
-  Param1.ChangeValue(TIntegerSQLParameterValue.New(1));
-  Param2 := TSQLParameter.New('Param2');
-  Param2.ChangeValue(TIntegerSQLParameterValue.New(2));
-  Param3 := TSQLParameter.New('Param3');
-  Param3.ChangeValue(TIntegerSQLParameterValue.New(3));
-  Param4 := TSQLParameter.New('Param4');
-  Param4.ChangeValue(TIntegerSQLParameterValue.New(4));
-  Condition := TInSQLCondition.New(TTextKey.New('FieldTest'), [Param1, Param2, Param3, Param4],
-    TSyntaxFormat.New(TSymbolListMock.New));
+  Param1 := TStaticSQLParameter.New('Param1', TIntegerSQLParameterValue.New(1));
+  Param2 := TStaticSQLParameter.New('Param2', TIntegerSQLParameterValue.New(2));
+  Param3 := TStaticSQLParameter.New('Param3', TIntegerSQLParameterValue.New(3));
+  Param4 := TStaticSQLParameter.New('Param4', TIntegerSQLParameterValue.New(4));
+  Condition := TInSQLCondition.New(TSQLField.New('FieldTest'), [Param1, Param2, Param3, Param4]);
   CheckTrue(Condition.IsValid);
 end;
 
 initialization
 
-RegisterTest(TInSQLConditionTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest('Filter condition', TInSQLConditionTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.

@@ -35,7 +35,7 @@
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.2.3.4;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <SanitizedProjectName>test</SanitizedProjectName>
         <DCC_UsePackage>vclx;vcl;vclimg;dbrtl;Rave77VCL;bdertl;rtl;dxCoreD14;cxLibraryD14;dxDockingD14;dxBarD14;dxBarDBNavD14;dxBarExtDBItemsD14;dxBarExtItemsD14;dxRibbonD14;cxPageControlD14;vcldb;cxEditorsD14;cxExtEditorsD14;cxGridD14;cxTreeListD14;dxLayoutControlD14;dxmdsD14;dxComnD14;dxsbD14;dxdbtrD14;dxtrmdD14;dxorgcD14;dxdborD14;cxBarEditItemD14;cxTreeListdxBarPopupMenuD14;vclactnband;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;TeeUI;TeeDB;Tee;vclib;ibxpress;adortl;IndyCore;IndySystem;IndyProtocols;inet;intrawebdb_100_140;Intraweb_100_140;VclSmp;vclie;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;soaprtl;vclribbon;DbxCommonDriver;DbxClientDriver;DBXInterBaseDriver;DBXMySQLDriver;dbexpress;dbxcds;GireRapi;TIE_http_https;rxctl;rxdb;QR5RunD2010;GirePGP;ZMstr191D2010;CtrlGire;GireHelp;vclPerfUtilsV4D14;$(DCC_UsePackage)</DCC_UsePackage>
-        <DCC_UnitSearchPath>$(delphi3rdParty)\dunit-agiledoxtestrunner\;$(delphi3rdParty)\dxDUnit\Source\;$(delphiooLib)\ooBatch\code\;$(delphiooLib)\ooGeneric\code\;$(delphiooLib)\ooText\code\;$(delphiooLib)\ooEntity\code\key\;$(delphiooLib)\ooEntity\code\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>$(delphi3rdParty)\dunit-agiledoxtestrunner\;$(delphi3rdParty)\dxDUnit\Source\;$(delphiooLib)\ooBatch\code\;$(delphiooLib)\ooGeneric\code\;$(delphiooLib)\ooText\code\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_DependencyCheckOutputName>test.exe</DCC_DependencyCheckOutputName>
         <DCC_ImageBase>00400000</DCC_ImageBase>
         <DCC_Platform>x86</DCC_Platform>
@@ -64,6 +64,9 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <RcCompile Include="..\resources\sql.rc">
+            <Form>sql.res</Form>
+        </RcCompile>
         <DCCReference Include="..\..\code\condition\BetweenSQLCondition.pas"/>
         <DCCReference Include="..\..\code\condition\EqualSQLCondition.pas"/>
         <DCCReference Include="..\..\code\condition\GreaterOrEqualSQLCondition.pas"/>
@@ -76,6 +79,7 @@
         <DCCReference Include="..\..\code\condition\LessSQLCondition.pas"/>
         <DCCReference Include="..\..\code\condition\LikeSQLCondition.pas"/>
         <DCCReference Include="..\..\code\condition\NotEqualSQLCondition.pas"/>
+        <DCCReference Include="..\..\code\condition\SingleSQLCondition.pas"/>
         <DCCReference Include="..\..\code\condition\SQLCondition.pas"/>
         <DCCReference Include="..\..\code\join\AndNotSQLJoin.pas"/>
         <DCCReference Include="..\..\code\join\AndSQLJoin.pas"/>
@@ -84,20 +88,20 @@
         <DCCReference Include="..\..\code\join\OrSQLJoin.pas"/>
         <DCCReference Include="..\..\code\join\SQLJoin.pas"/>
         <DCCReference Include="..\..\code\join\WhereSQL.pas"/>
-        <DCCReference Include="..\..\code\parameter\BooleanSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\DateSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\DateTimeSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\DynamicSQLParameter.pas"/>
-        <DCCReference Include="..\..\code\parameter\DynamicSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\ExtendedFormatSetting.pas"/>
-        <DCCReference Include="..\..\code\parameter\ExtendedSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\IntegerSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\ListSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\NullSQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\BooleanSQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\DateSQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\DateTimeSQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\ReplaceableSQLParameter.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\ReplaceableSQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\ExtendedFormatSetting.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\ExtendedSQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\IntegerSQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\ListSQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\NullSQLParameterValue.pas"/>
         <DCCReference Include="..\..\code\parameter\SQLParameter.pas"/>
-        <DCCReference Include="..\..\code\parameter\SQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\StringSQLParameterValue.pas"/>
-        <DCCReference Include="..\..\code\parameter\UIntegerSQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\SQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\StringSQLParameterValue.pas"/>
+        <DCCReference Include="..\..\code\parameter\value\UIntegerSQLParameterValue.pas"/>
         <DCCReference Include="..\..\code\sort\AscendingSQLSort.pas"/>
         <DCCReference Include="..\..\code\sort\DescendingSQLSort.pas"/>
         <DCCReference Include="..\..\code\sort\NoneSQLSort.pas"/>
@@ -118,26 +122,27 @@
         <DCCReference Include="..\code\condition\LessSQLCondition_test.pas"/>
         <DCCReference Include="..\code\condition\LikeSQLCondition_test.pas"/>
         <DCCReference Include="..\code\condition\NotEqualSQLCondition_test.pas"/>
+        <DCCReference Include="..\code\condition\SQLConditionList_test.pas"/>
         <DCCReference Include="..\code\join\AndNotSQLJoin_test.pas"/>
         <DCCReference Include="..\code\join\AndSQLJoin_test.pas"/>
         <DCCReference Include="..\code\join\NoneSQLJoin_test.pas"/>
         <DCCReference Include="..\code\join\OrNotSQLJoin_test.pas"/>
         <DCCReference Include="..\code\join\OrSQLJoin_test.pas"/>
         <DCCReference Include="..\code\join\WhereSQL_test.pas"/>
-        <DCCReference Include="..\code\mock\SymbolListMock.pas"/>
-        <DCCReference Include="..\code\parameter\BooleanSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\DateSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\DateTimeSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\DynamicSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\ExtendedFormatSettingValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\ExtendedSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\IntegerSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\ListSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\NullSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\RawSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\SQLParameter_test.pas"/>
-        <DCCReference Include="..\code\parameter\StringSQLParameterValue_test.pas"/>
-        <DCCReference Include="..\code\parameter\UIntegerSQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\BooleanSQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\DateSQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\DateTimeSQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\ReplaceableSQLParameter_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\ReplaceableSQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\ExtendedFormatSettingValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\ExtendedSQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\IntegerSQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\ListSQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\NullSQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\SQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\StaticSQLParameter_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\StringSQLParameterValue_test.pas"/>
+        <DCCReference Include="..\code\parameter\value\UIntegerSQLParameterValue_test.pas"/>
         <DCCReference Include="..\code\sort\AscendingSQLSort_test.pas"/>
         <DCCReference Include="..\code\sort\DescendingSQLSort_test.pas"/>
         <DCCReference Include="..\code\sort\NoneSQLSort_test.pas"/>
@@ -145,9 +150,22 @@
         <DCCReference Include="..\code\SQLFilter_test.pas"/>
         <DCCReference Include="..\code\SQLFiltered_test.pas"/>
         <DCCReference Include="..\code\SQLInjectedFilter_test.pas"/>
-        <DCCReference Include="..\..\code\condition\SingleSQLCondition.pas"/>
+        <DCCReference Include="..\..\code\Statement.pas"/>
+        <DCCReference Include="..\..\code\SQLField.pas"/>
+        <DCCReference Include="..\..\code\store\StoredText.pas"/>
+        <DCCReference Include="..\..\code\store\ResourceStoredText.pas"/>
+        <DCCReference Include="..\code\store\ResourceStoredText_test.pas"/>
+        <DCCReference Include="..\..\code\store\StoredSQL.pas"/>
+        <DCCReference Include="..\code\store\StoredSQL_test.pas"/>
+        <DCCReference Include="..\..\code\parameter\StaticSQLParameter.pas"/>
+        <DCCReference Include="..\..\code\parameter\MutableSQLParameter.pas"/>
+        <DCCReference Include="..\code\parameter\MutableSQLParameter_test.pas"/>
+        <DCCReference Include="..\..\code\parameter\DynamicSQLParameter.pas"/>
         <DCCReference Include="..\code\parameter\DynamicSQLParameter_test.pas"/>
-        <DCCReference Include="..\code\condition\SQLConditionList_test.pas"/>
+        <DCCReference Include="..\..\code\condition\RawSQLCondition.pas"/>
+        <DCCReference Include="..\code\condition\RawSQLCondition_test.pas"/>
+        <DCCReference Include="..\..\code\store\FileStoredText.pas"/>
+        <DCCReference Include="..\code\store\FileStoredText_test.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -204,8 +222,6 @@
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclFMXtee9250.bpl">TeeChart Lite FMX Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcltee9250.bpl">TeeChart Standard VCL Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k250.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp250.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Platforms>

@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -16,10 +16,9 @@ interface
 
 uses
   SysUtils,
-  Key,
-  SyntaxFormat,
-  SQLParameter,
   IterableList,
+  SQLField,
+  SQLParameter,
   Statement;
 
 type
@@ -28,8 +27,8 @@ type
   @abstract(SQL condition syntax object)
   Object to resolve a SQL sort syntax
   @member(
-    Key Field to use with condition
-    @return(@link(ITextKey Key field))
+    Field Field to use with condition
+    @return(@link(ISQLField Field object))
   )
   @member(
     IsValid Checks if the condition is valid to use
@@ -39,7 +38,7 @@ type
 {$ENDREGION}
   ISQLCondition = interface(IStatement)
     ['{D5E9B0B3-8909-4B3B-8DFD-886D8A78FB8F}']
-    function Key: ITextKey;
+    function Field: ISQLField;
     function IsValid: Boolean;
   end;
 
@@ -69,25 +68,16 @@ type
   @abstract(Implementation of @link(ISQLConditionList))
   @member(Syntax @seealso(ISQLConditionList.Syntax))
   @member(IsValid @seealso(ISQLConditionList.IsValid))
-  @member(
-    Create Object constructor
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
-  )
-  @member(
-    New Create a new @classname as interface
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
-  )
+  @member(Create Object constructor)
+  @member(New Create a new @classname as interface)
 }
 {$ENDREGION}
 
   TSQLConditionList = class sealed(TIterableList<ISQLCondition>, ISQLConditionList)
-  strict private
-    _SyntaxFormat: ISyntaxFormat;
   public
     function Syntax: String;
     function IsValid: Boolean;
-    constructor Create(const SyntaxFormat: ISyntaxFormat); reintroduce;
-    class function New(const SyntaxFormat: ISyntaxFormat): ISQLConditionList;
+    class function New: ISQLConditionList;
   end;
 
 implementation
@@ -98,8 +88,12 @@ var
 begin
   Result := EmptyStr;
   for Condition in Self do
-    Result := _SyntaxFormat.ItemsFormat([Result, Condition.Syntax], [Spaced]);
-  Result := _SyntaxFormat.TextFormat(Result, [Enclosed]);
+    if Length(Result) > 0 then
+      Result := Result + ' ' + Condition.Syntax
+    else
+      Result := Condition.Syntax;
+  if Length(Result) > 0 then
+    Result := '(' + Result + ')';
 end;
 
 function TSQLConditionList.IsValid: Boolean;
@@ -112,15 +106,9 @@ begin
       Exit(False);
 end;
 
-constructor TSQLConditionList.Create(const SyntaxFormat: ISyntaxFormat);
+class function TSQLConditionList.New: ISQLConditionList;
 begin
-  inherited Create;
-  _SyntaxFormat := SyntaxFormat;
-end;
-
-class function TSQLConditionList.New(const SyntaxFormat: ISyntaxFormat): ISQLConditionList;
-begin
-  Result := TSQLConditionList.Create(SyntaxFormat);
+  Result := TSQLConditionList.Create;
 end;
 
 end.

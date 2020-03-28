@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -28,7 +28,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="$env(delphi3rdParty)\generics.collections\src;$env(delphiooLib)\ooBatch\code;$env(delphiooLib)\ooText\code;$env(delphiooLib)\ooEntity\code;$env(delphiooLib)\ooGeneric\code;$env(delphiooLib)\ooEntity\code\key;..\..\code;..\..\code\join;..\..\code\sort;..\..\code\condition;..\..\code\parameter;..\code\form;..\..\test\code\mock"/>
+            <OtherUnitFiles Value="$env(delphi3rdParty)\generics.collections\src;$env(delphiooLib)\ooBatch\code;$env(delphiooLib)\ooText\code;$env(delphiooLib)\ooGeneric\code;..\..\code;..\..\code\join;..\..\code\sort;..\..\code\condition;..\..\code\parameter;..\..\code\parameter\value;..\..\code\store;..\code\form"/>
             <UnitOutputDirectory Value="..\build\debug"/>
           </SearchPaths>
           <Parsing>
@@ -70,7 +70,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="$env(delphi3rdParty)\generics.collections\src;$env(delphiooLib)\ooBatch\code;$env(delphiooLib)\ooText\code;$env(delphiooLib)\ooEntity\code;$env(delphiooLib)\ooGeneric\code;$env(delphiooLib)\ooEntity\code\key;..\..\code;..\..\code\join;..\..\code\sort;..\..\code\condition;..\..\code\parameter;..\code\form;..\..\test\code\mock"/>
+            <OtherUnitFiles Value="$env(delphi3rdParty)\generics.collections\src;$env(delphiooLib)\ooBatch\code;$env(delphiooLib)\ooText\code;$env(delphiooLib)\ooGeneric\code;..\..\code;..\..\code\join;..\..\code\sort;..\..\code\condition;..\..\code\parameter;..\..\code\parameter\value;..\..\code\store;..\code\form"/>
             <UnitOutputDirectory Value="..\build\release"/>
           </SearchPaths>
           <Parsing>
@@ -105,9 +105,10 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <FormatVersion Value="1"/>
-      </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
@@ -120,7 +121,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="3">
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -136,10 +137,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit2>
-      <Unit3>
-        <Filename Value="..\..\test\code\mock\SymbolListMock.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -147,7 +144,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="$env(delphi3rdParty)\generics.collections\src;$env(delphiooLib)\ooBatch\code;$env(delphiooLib)\ooText\code;$env(delphiooLib)\ooEntity\code;$env(delphiooLib)\ooGeneric\code;$env(delphiooLib)\ooEntity\code\key;..\..\code;..\..\code\join;..\..\code\sort;..\..\code\condition;..\..\code\parameter;..\code\form;..\..\test\code\mock"/>
+      <OtherUnitFiles Value="$env(delphi3rdParty)\generics.collections\src;$env(delphiooLib)\ooBatch\code;$env(delphiooLib)\ooText\code;$env(delphiooLib)\ooGeneric\code;..\..\code;..\..\code\join;..\..\code\sort;..\..\code\condition;..\..\code\parameter;..\..\code\parameter\value;..\..\code\store;..\code\form"/>
       <UnitOutputDirectory Value="..\build\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

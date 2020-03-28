@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -9,14 +9,13 @@ interface
 
 uses
   SysUtils,
-  Key,
-  SyntaxFormat, SyntaxFormatSymbol, SymbolListMock,
+  SQLField,
   SQLFilter,
   EqualSQLCondition,
   SQLInjectedFilter,
   NoneSQLJoin, WhereSQL, AndSQLJoin,
-  DynamicSQLParameterValue,
-  SQLParameter,
+  ReplaceableSQLParameterValue,
+  SQLParameter, StaticSQLParameter, MutableSQLParameter, ReplaceableSQLParameter,
 {$IFDEF FPC}
   fpcunit, testregistry
 {$ELSE}
@@ -25,8 +24,6 @@ uses
 
 type
   TSQLInjectedFilterTest = class sealed(TTestCase)
-  private
-    function DefaultSyntaxFormat: ISyntaxFormat;
   published
     procedure InjectWithOutWhere;
     procedure InjectWithWhere;
@@ -37,11 +34,6 @@ type
 
 implementation
 
-function TSQLInjectedFilterTest.DefaultSyntaxFormat: ISyntaxFormat;
-begin
-  Result := TSyntaxFormat.New(TSymbolListMock.New);
-end;
-
 procedure TSQLInjectedFilterTest.InjectWithMultipleOrderBy;
 const
   SQL = 'SELECT (SELECT 1 FROM TABLE 2 ORDER BY 2) FROM TABLE1 ORDER BY 1';
@@ -49,11 +41,10 @@ var
   Filter: ISQLFilter;
   Param1: ISQLParameter;
 begin
-  Filter := TSQLFilter.New(TNoneSQLJoin.New, DefaultSyntaxFormat);
-  Param1 := TSQLParameter.NewWithOutName;
-  Param1.ChangeValue(TDynamicSQLParameterValue.New('VALUE'));
-  Filter.ConditionList.Add(TEqualSQLCondition.New(TTextKey.New('Field1'), Param1, DefaultSyntaxFormat));
-  CheckEquals('SELECT (SELECT 1 FROM TABLE 2 ORDER BY 2) FROM TABLE1 WHERE (Field1 = :VALUE) ORDER BY 1',
+  Filter := TSQLFilter.New(TNoneSQLJoin.New);
+  Param1 := TstaticSQLParameter.NewWithOutName(TReplaceableSQLParameterValue.New('VALUE'));
+  Filter.ConditionList.Add(TEqualSQLCondition.New(TSQLField.New('Field1'), Param1));
+  CheckEquals('SELECT (SELECT 1 FROM TABLE 2 ORDER BY 2) FROM TABLE1 WHERE (Field1=:VALUE) ORDER BY 1',
     TSQLInjectedFilter.New.Parse(SQL, Filter));
 end;
 
@@ -64,11 +55,10 @@ var
   Filter: ISQLFilter;
   Param1: ISQLParameter;
 begin
-  Filter := TSQLFilter.New(TNoneSQLJoin.New, DefaultSyntaxFormat);
-  Param1 := TSQLParameter.NewWithOutName;
-  Param1.ChangeValue(TDynamicSQLParameterValue.New('VALUE'));
-  Filter.ConditionList.Add(TEqualSQLCondition.New(TTextKey.New('Field1'), Param1, DefaultSyntaxFormat));
-  CheckEquals('SELECT * FROM TABLE1 WHERE (Field1 = :VALUE) ORDER BY 1', TSQLInjectedFilter.New.Parse(SQL, Filter));
+  Filter := TSQLFilter.New(TNoneSQLJoin.New);
+  Param1 := TstaticSQLParameter.NewWithOutName(TReplaceableSQLParameterValue.New('VALUE'));
+  Filter.ConditionList.Add(TEqualSQLCondition.New(TSQLField.New('Field1'), Param1));
+  CheckEquals('SELECT * FROM TABLE1 WHERE (Field1=:VALUE) ORDER BY 1', TSQLInjectedFilter.New.Parse(SQL, Filter));
 end;
 
 procedure TSQLInjectedFilterTest.InjectWithOutWhere;
@@ -78,44 +68,41 @@ var
   Filter: ISQLFilter;
   Param1: ISQLParameter;
 begin
-  Filter := TSQLFilter.New(TNoneSQLJoin.New, DefaultSyntaxFormat);
-  Param1 := TSQLParameter.NewWithOutName;
-  Param1.ChangeValue(TDynamicSQLParameterValue.New('VALUE'));
-  Filter.ConditionList.Add(TEqualSQLCondition.New(TTextKey.New('Field1'), Param1, DefaultSyntaxFormat));
-  CheckEquals(SQL + ' WHERE (Field1 = :VALUE)', TSQLInjectedFilter.New.Parse(SQL, Filter));
+  Filter := TSQLFilter.New(TNoneSQLJoin.New);
+  Param1 := TstaticSQLParameter.NewWithOutName(TReplaceableSQLParameterValue.New('VALUE'));
+  Filter.ConditionList.Add(TEqualSQLCondition.New(TSQLField.New('Field1'), Param1));
+  CheckEquals(SQL + ' WHERE (Field1=:VALUE)', TSQLInjectedFilter.New.Parse(SQL, Filter));
 end;
 
 procedure TSQLInjectedFilterTest.InjectWithWhere;
 const
-  SQL = 'SELECT * FROM TABLE1 WHERE TEST_FIELD = 666';
+  SQL = 'SELECT * FROM TABLE1 WHERE TEST_FIELD=666';
 var
   Filter: ISQLFilter;
   Param1: ISQLParameter;
 begin
-  Filter := TSQLFilter.New(TAndSQLJoin.New, DefaultSyntaxFormat);
-  Param1 := TSQLParameter.NewWithOutName;
-  Param1.ChangeValue(TDynamicSQLParameterValue.New('VALUE'));
-  Filter.ConditionList.Add(TEqualSQLCondition.New(TTextKey.New('Field1'), Param1, DefaultSyntaxFormat));
-  CheckEquals(SQL + ' AND (Field1 = :VALUE)', TSQLInjectedFilter.New.Parse(SQL, Filter));
+  Filter := TSQLFilter.New(TAndSQLJoin.New);
+  Param1 := TstaticSQLParameter.NewWithOutName(TReplaceableSQLParameterValue.New('VALUE'));
+  Filter.ConditionList.Add(TEqualSQLCondition.New(TSQLField.New('Field1'), Param1));
+  CheckEquals(SQL + ' AND (Field1=:VALUE)', TSQLInjectedFilter.New.Parse(SQL, Filter));
 end;
 
 procedure TSQLInjectedFilterTest.InjectWithWhereAndOrderBy;
 const
-  SQL = 'SELECT * FROM TABLE1 WHERE TEST_FIELD = 666 ORDER BY 2 DESC';
+  SQL = 'SELECT * FROM TABLE1 WHERE TEST_FIELD=666 ORDER BY 2 DESC';
 var
   Filter: ISQLFilter;
   Param1: ISQLParameter;
 begin
-  Filter := TSQLFilter.New(TAndSQLJoin.New, DefaultSyntaxFormat);
-  Param1 := TSQLParameter.NewWithOutName;
-  Param1.ChangeValue(TDynamicSQLParameterValue.New('VALUE'));
-  Filter.ConditionList.Add(TEqualSQLCondition.New(TTextKey.New('Field1'), Param1, DefaultSyntaxFormat));
-  CheckEquals('SELECT * FROM TABLE1 WHERE TEST_FIELD = 666 AND (Field1 = :VALUE) ORDER BY 2 DESC',
+  Filter := TSQLFilter.New(TAndSQLJoin.New);
+  Param1 := TstaticSQLParameter.NewWithOutName(TReplaceableSQLParameterValue.New('VALUE'));
+  Filter.ConditionList.Add(TEqualSQLCondition.New(TSQLField.New('Field1'), Param1));
+  CheckEquals('SELECT * FROM TABLE1 WHERE TEST_FIELD=666 AND (Field1=:VALUE) ORDER BY 2 DESC',
     TSQLInjectedFilter.New.Parse(SQL, Filter));
 end;
 
 initialization
 
-RegisterTest(TSQLInjectedFilterTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest('Statement', TSQLInjectedFilterTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.

@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -15,8 +15,7 @@ unit SingleSQLCondition;
 interface
 
 uses
-  Key,
-  SyntaxFormat,
+  SQLField,
   SQLParameter,
   SQLCondition;
 
@@ -39,54 +38,50 @@ type
 {$REGION 'documentation'}
 {
   @abstract(Implementation of @link(ISingleSQLCondition))
-  @member(Key @seealso(ISQLCondition.Key))
+  @member(Field @seealso(ISQLCondition.Field))
   @member(Syntax @seealso(ISQLCondition.Syntax))
   @member(IsValid @seealso(ISQLCondition.IsValid))
   @member(Parameter @seealso(ISingleSQLCondition.Parameter))
   @member(
     Create Object constructor
-    @param(Key Condition field)
+    @param(Field Condition field)
     @param(Comparator Comparator text)
     @param(Parameter Parameter object)
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
   @member(
     New Create a new @classname as interface
-    @param(Key Condition field)
+    @param(Field Condition field)
     @param(Comparator Comparator text)
     @param(Parameter Parameter object)
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
 }
 {$ENDREGION}
 
   TSingleSQLCondition = class sealed(TInterfacedObject, ISingleSQLCondition)
   private
-    _Key: ITextKey;
+    _Field: ISQLField;
     _Comparator: String;
     _Parameter: ISQLParameter;
-    _SyntaxFormat: ISyntaxFormat;
   public
-    function Key: ITextKey;
+    function Field: ISQLField;
     function Syntax: String;
     function IsValid: Boolean;
     function Parameter: ISQLParameter;
-    constructor Create(const Key: ITextKey; const Comparator: String; const Parameter: ISQLParameter;
-      const SyntaxFormat: ISyntaxFormat);
-    class function New(const Key: ITextKey; const Comparator: String; const Parameter: ISQLParameter;
-      const SyntaxFormat: ISyntaxFormat): ISingleSQLCondition;
+    constructor Create(const Field: ISQLField; const Comparator: String; const Parameter: ISQLParameter);
+    class function New(const Field: ISQLField; const Comparator: String; const Parameter: ISQLParameter)
+      : ISingleSQLCondition;
   end;
 
 implementation
 
-function TSingleSQLCondition.Key: ITextKey;
+function TSingleSQLCondition.Field: ISQLField;
 begin
-  Result := _Key;
+  Result := _Field;
 end;
 
 function TSingleSQLCondition.Syntax: String;
 begin
-  Result := _SyntaxFormat.ItemsFormat([_Key.Value, _Comparator, _Parameter.Value.Syntax], [Spaced]);
+  Result := _Field.Name + _Comparator + _Parameter.Value.Content;
 end;
 
 function TSingleSQLCondition.IsValid: Boolean;
@@ -99,19 +94,18 @@ begin
   Result := _Parameter;
 end;
 
-constructor TSingleSQLCondition.Create(const Key: ITextKey; const Comparator: String; const Parameter: ISQLParameter;
-  const SyntaxFormat: ISyntaxFormat);
+constructor TSingleSQLCondition.Create(const Field: ISQLField; const Comparator: String;
+  const Parameter: ISQLParameter);
 begin
-  _Key := Key;
+  _Field := Field;
   _Comparator := Comparator;
   _Parameter := Parameter;
-  _SyntaxFormat := SyntaxFormat;
 end;
 
-class function TSingleSQLCondition.New(const Key: ITextKey; const Comparator: String; const Parameter: ISQLParameter;
-  const SyntaxFormat: ISyntaxFormat): ISingleSQLCondition;
+class function TSingleSQLCondition.New(const Field: ISQLField; const Comparator: String; const Parameter: ISQLParameter)
+  : ISingleSQLCondition;
 begin
-  Result := TSingleSQLCondition.Create(Key, Comparator, Parameter, SyntaxFormat)
+  Result := TSingleSQLCondition.Create(Field, Comparator, Parameter)
 end;
 
 end.

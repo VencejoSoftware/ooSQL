@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -7,8 +7,7 @@ program demo;
 
 uses
   Forms,
-  MainForm in '..\code\form\MainForm.pas' {MainForm},
-  SymbolListMock in '..\..\test\code\mock\SymbolListMock.pas';
+  MainForm in '..\code\form\MainForm.pas' {MainForm};
 
 {$R *.res}
 

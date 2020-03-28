@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -31,6 +31,6 @@ end;
 
 initialization
 
-RegisterTest(TWhereSQLTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest('Join', TWhereSQLTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.

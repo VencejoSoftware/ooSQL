@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -15,52 +15,48 @@ unit IsNullSQLCondition;
 interface
 
 uses
-  Key,
-  SyntaxFormat,
+  SQLField,
   SQLCondition;
 
 type
 {$REGION 'documentation'}
 {
   @abstract(Implementation of @link(ISQLCondition))
-  Resolve SQL is null condition as syntax. For example: [KEY_FIELD] IS NULL
-  @member(Key @seealso(ISQLCondition.Key))
+  Resolve SQL is null condition as syntax. For example: [FIELD] IS NULL
+  @member(Field @seealso(ISQLCondition.Field))
   @member(Syntax @seealso(ISQLCondition.Syntax))
   @member(IsValid @seealso(ISQLCondition.IsValid))
   @member(
     Create Object constructor
-    @param(Key Condition field)
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
+    @param(Field Condition field)
   )
   @member(
     New Create a new @classname as interface
-    @param(Key Condition field)
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
+    @param(Field Condition field)
   )
 }
 {$ENDREGION}
   TIsNullSQLCondition = class sealed(TInterfacedObject, ISQLCondition)
   private
-    _Key: ITextKey;
-    _SyntaxFormat: ISyntaxFormat;
+    _Field: ISQLField;
   public
-    function Key: ITextKey;
+    function Field: ISQLField;
     function Syntax: String;
     function IsValid: Boolean;
-    constructor Create(const Key: ITextKey; const SyntaxFormat: ISyntaxFormat);
-    class function New(const Key: ITextKey; const SyntaxFormat: ISyntaxFormat): ISQLCondition;
+    constructor Create(const Field: ISQLField);
+    class function New(const Field: ISQLField): ISQLCondition;
   end;
 
 implementation
 
-function TIsNullSQLCondition.Key: ITextKey;
+function TIsNullSQLCondition.Field: ISQLField;
 begin
-  Result := _Key;
+  Result := _Field;
 end;
 
 function TIsNullSQLCondition.Syntax: String;
 begin
-  Result := _SyntaxFormat.ItemsFormat([_Key.Value, 'IS NULL'], [Spaced]);
+  Result := _Field.Name + ' IS NULL';
 end;
 
 function TIsNullSQLCondition.IsValid: Boolean;
@@ -68,15 +64,14 @@ begin
   Result := True;
 end;
 
-constructor TIsNullSQLCondition.Create(const Key: ITextKey; const SyntaxFormat: ISyntaxFormat);
+constructor TIsNullSQLCondition.Create(const Field: ISQLField);
 begin
-  _Key := Key;
-  _SyntaxFormat := SyntaxFormat;
+  _Field := Field;
 end;
 
-class function TIsNullSQLCondition.New(const Key: ITextKey; const SyntaxFormat: ISyntaxFormat): ISQLCondition;
+class function TIsNullSQLCondition.New(const Field: ISQLField): ISQLCondition;
 begin
-  Result := TIsNullSQLCondition.Create(Key, SyntaxFormat);
+  Result := TIsNullSQLCondition.Create(Field);
 end;
 
 end.

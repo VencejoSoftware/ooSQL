@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -15,7 +15,7 @@ unit SQLSort;
 interface
 
 uses
-  Key,
+  SQLField,
   Statement;
 
 type
@@ -35,7 +35,7 @@ type
   Object to resolve a SQL sort syntax
   @member(
     Key Field to sort
-    @return(@link(ITextKey Key field))
+    @return(@link(ISQLField Field object))
   )
   @member(
     Direction Sort kind direction
@@ -46,7 +46,7 @@ type
 
   ISQLSort = interface(IStatement)
     ['{F27AB525-F4AD-4816-B4C4-D5C8C09A36B5}']
-    function Key: ITextKey;
+    function Field: ISQLField;
     function Direction: TSQLSortDirection;
   end;
 

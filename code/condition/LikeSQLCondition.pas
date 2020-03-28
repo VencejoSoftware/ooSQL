@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -15,8 +15,7 @@ unit LikeSQLCondition;
 interface
 
 uses
-  Key,
-  SyntaxFormat,
+  SQLField,
   SQLParameter,
   SQLCondition,
   SingleSQLCondition;
@@ -25,21 +24,19 @@ type
 {$REGION 'documentation'}
 {
   @abstract(Implementation of @link(ISQLCondition))
-  Resolve SQL like condition as syntax. For example: [KEY_FIELD] LIKE [PARAMETER1]
-  @member(Key @seealso(ISQLCondition.Key))
+  Resolve SQL like condition as syntax. For example: [FIELD] LIKE [PARAMETER]
+  @member(Field @seealso(ISQLCondition.Field))
   @member(Syntax @seealso(ISQLCondition.Syntax))
   @member(IsValid @seealso(ISQLCondition.IsValid))
   @member(
     Create Object constructor
-    @param(Key Condition field)
+    @param(Field Condition field)
     @param(Parameter Parameter object)
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
   @member(
     New Create a new @classname as interface
-    @param(Key Condition field)
+    @param(Field Condition field)
     @param(Parameter Parameter object)
-    @param(SyntaxFormat @link(ISQLJoin Syntax formatter object))
   )
 }
 {$ENDREGION}
@@ -47,20 +44,19 @@ type
   private
     _Condition: ISingleSQLCondition;
   public
-    function Key: ITextKey;
+    function Field: ISQLField;
     function Syntax: String;
     function IsValid: Boolean;
     function Parameter: ISQLParameter;
-    constructor Create(const Key: ITextKey; const Parameter: ISQLParameter; const SyntaxFormat: ISyntaxFormat);
-    class function New(const Key: ITextKey; const Parameter: ISQLParameter; const SyntaxFormat: ISyntaxFormat)
-      : ISingleSQLCondition;
+    constructor Create(const Field: ISQLField; const Parameter: ISQLParameter);
+    class function New(const Field: ISQLField; const Parameter: ISQLParameter): ISingleSQLCondition;
   end;
 
 implementation
 
-function TLikeSQLCondition.Key: ITextKey;
+function TLikeSQLCondition.Field: ISQLField;
 begin
-  Result := _Condition.Key;
+  Result := _Condition.Field;
 end;
 
 function TLikeSQLCondition.Syntax: String;
@@ -78,16 +74,14 @@ begin
   Result := _Condition.Parameter;
 end;
 
-constructor TLikeSQLCondition.Create(const Key: ITextKey; const Parameter: ISQLParameter;
-  const SyntaxFormat: ISyntaxFormat);
+constructor TLikeSQLCondition.Create(const Field: ISQLField; const Parameter: ISQLParameter);
 begin
-  _Condition := TSingleSQLCondition.New(Key, 'LIKE', Parameter, SyntaxFormat);
+  _Condition := TSingleSQLCondition.New(Field, ' LIKE ', Parameter);
 end;
 
-class function TLikeSQLCondition.New(const Key: ITextKey; const Parameter: ISQLParameter;
-  const SyntaxFormat: ISyntaxFormat): ISingleSQLCondition;
+class function TLikeSQLCondition.New(const Field: ISQLField; const Parameter: ISQLParameter): ISingleSQLCondition;
 begin
-  Result := TLikeSQLCondition.Create(Key, Parameter, SyntaxFormat);
+  Result := TLikeSQLCondition.Create(Field, Parameter);
 end;
 
 end.

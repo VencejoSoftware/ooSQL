@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -71,8 +71,10 @@ type
   TSQL = class sealed(TInterfacedObject, ISQL)
   strict private
     _SQL: String;
+    _ReplaceText: IReplaceText;
   private
     function ReplaceParameter(const SQL: String; const Parameter: ISQLParameter): String;
+    function ReplaceText: IReplaceText;
   public
     function Syntax: String;
     function Parse(const Parameters: array of ISQLParameter): IStatement; overload;
@@ -107,13 +109,17 @@ begin
   Result := _SQL;
 end;
 
-function TSQL.ReplaceParameter(const SQL: String; const Parameter: ISQLParameter): String;
-var
-  ReplaceText: IReplaceText;
+function TSQL.ReplaceText: IReplaceText;
 begin
-  ReplaceText := TReplaceText.New(TInsensitiveWordMatch.NewDefault);
+  if not Assigned(_ReplaceText) then
+    _ReplaceText := TReplaceText.New(TInsensitiveWordMatch.NewDefault);
+  Result := _ReplaceText;
+end;
+
+function TSQL.ReplaceParameter(const SQL: String; const Parameter: ISQLParameter): String;
+begin
   Result := ReplaceText.AllMatches(TText.New(SQL), TText.New(Parameter.Syntax),
-    TText.New(Parameter.Value.Syntax), 1).Value;
+    TText.New(Parameter.Value.Content), 1).Value;
 end;
 
 function TSQL.Parse(const Parameters: array of ISQLParameter): IStatement;

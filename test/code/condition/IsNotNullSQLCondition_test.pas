@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -9,8 +9,7 @@ interface
 
 uses
   SysUtils,
-  Key,
-  SyntaxFormat, SyntaxFormatSymbol, SymbolListMock,
+  SQLField,
   SQLCondition,
   IsNotNullSQLCondition,
 {$IFDEF FPC}
@@ -22,26 +21,26 @@ uses
 type
   TIsNotNullSQLConditionTest = class sealed(TTestCase)
   published
-    procedure KeyIsFieldTest;
+    procedure FieldIsFieldTest;
     procedure SyntaxIsFieldTestIsNotNull;
     procedure IsValidIsTrue;
   end;
 
 implementation
 
-procedure TIsNotNullSQLConditionTest.KeyIsFieldTest;
+procedure TIsNotNullSQLConditionTest.FieldIsFieldTest;
 var
   Condition: ISQLCondition;
 begin
-  Condition := TIsNotNullSQLCondition.New(TTextKey.New('FieldTest'), TSyntaxFormat.New(TSymbolListMock.New));
-  CheckEquals('FieldTest', Condition.Key.Value);
+  Condition := TIsNotNullSQLCondition.New(TSQLField.New('FieldTest'));
+  CheckEquals('FieldTest', Condition.Field.Name);
 end;
 
 procedure TIsNotNullSQLConditionTest.SyntaxIsFieldTestIsNotNull;
 var
   Condition: ISQLCondition;
 begin
-  Condition := TIsNotNullSQLCondition.New(TTextKey.New('FieldTest'), TSyntaxFormat.New(TSymbolListMock.New));
+  Condition := TIsNotNullSQLCondition.New(TSQLField.New('FieldTest'));
   CheckEquals('FieldTest IS NOT NULL', Condition.Syntax);
 end;
 
@@ -49,12 +48,12 @@ procedure TIsNotNullSQLConditionTest.IsValidIsTrue;
 var
   Condition: ISQLCondition;
 begin
-  Condition := TIsNotNullSQLCondition.New(TTextKey.New('FieldTest'), TSyntaxFormat.New(TSymbolListMock.New));
+  Condition := TIsNotNullSQLCondition.New(TSQLField.New('FieldTest'));
   CheckTrue(Condition.IsValid);
 end;
 
 initialization
 
-RegisterTest(TIsNotNullSQLConditionTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest('Filter condition', TIsNotNullSQLConditionTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.
